@@ -14,7 +14,6 @@ public class TweetMapper implements ResultSetMapper<Tweet> {
                 r.getLong("status_id"),
                 r.getTimestamp("created_at"),
                 r.getString("original_text"),
-                r.getString("stripped_text"),
                 r.getString("stripped_sorted_text"),
                 r.getLong("user_id"),
                 r.getString("user_name"),

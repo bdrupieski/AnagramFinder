@@ -16,7 +16,6 @@ public interface TweetDao {
             "status_id, " +
             "created_at, " +
             "original_text, " +
-            "stripped_text, " +
             "stripped_sorted_text, " +
             "user_id, " +
             "user_name, " +
@@ -28,7 +27,6 @@ public interface TweetDao {
             ":statusId, " +
             ":createdAt, " +
             ":tweetOriginalText, " +
-            ":tweetStrippedText, " +
             ":tweetSortedStrippedText, " +
             ":userId, " +
             ":userName, " +

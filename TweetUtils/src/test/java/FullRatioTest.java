@@ -11,7 +11,7 @@ public class FullRatioTest {
 
     private static Tweet tweetFromText(String text) {
         ProcessedTweetText processedTweetText = Tweet.processTweetText(text);
-        return new Tweet(UUID.randomUUID(), 1, new Timestamp(1), text, processedTweetText.getStrippedText(),
+        return new Tweet(UUID.randomUUID(), 1, new Timestamp(1), text,
                 processedTweetText.getSortedStrippedText(), 1L, "", false);
     }
 
@@ -47,6 +47,4 @@ public class FullRatioTest {
         ratios("abc", "ABC", 0.0f, 0.0f, 0.0f, 0.0f);
         ratios("        abc", "ABC            ", 0.0f, 0.0f, 0.0f, 0.0f);
     }
-
-
 }

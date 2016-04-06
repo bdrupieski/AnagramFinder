@@ -49,7 +49,8 @@ public class MatchMetrics {
                                         matrix[i - 1][j - 1] + cost));
 
                 if (i > 1 && j > 1 && aUpper.charAt(i - 1) == bUpper.charAt(j - 2) && aUpper.charAt(i - 2) == bUpper.charAt(j - 1)) {
-                    matrix[i][j] = Math.min(matrix[i][j], matrix[i - 2][j - 2] + cost);
+                    matrix[i][j] = Math.min(matrix[i    ][j    ],
+                                            matrix[i - 2][j - 2] + cost);
                 }
             }
         }
@@ -62,8 +63,7 @@ public class MatchMetrics {
 
         int distance = 0;
 
-        for (int i = 0; i < a.length(); i++)
-        {
+        for (int i = 0; i < a.length(); i++) {
             if (a.charAt(i) != b.charAt(i)) {
                 distance++;
             }

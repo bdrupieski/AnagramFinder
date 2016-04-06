@@ -23,7 +23,7 @@ public class Tweet {
     private Tweet() {
     }
 
-    public Tweet(UUID id, long statusId, Timestamp createdAt, String tweetOriginalText, String tweetStrippedText, String tweetSortedStrippedText, Long userId, String userName, boolean isMatched) {
+    private Tweet(UUID id, long statusId, Timestamp createdAt, String tweetOriginalText, String tweetStrippedText, String tweetSortedStrippedText, Long userId, String userName, boolean isMatched) {
         this.id = id;
         this.statusId = statusId;
         this.createdAt = createdAt;
@@ -35,8 +35,16 @@ public class Tweet {
         this.isMatched = isMatched;
     }
 
+    public Tweet(UUID id, long statusId, Timestamp createdAt, String tweetOriginalText, String tweetSortedStrippedText, Long userId, String userName, boolean isMatched) {
+        this(id, statusId, createdAt, tweetOriginalText, stripText(tweetOriginalText), tweetSortedStrippedText, userId, userName, isMatched);
+    }
+
+    private static String stripText(String originalText) {
+        return Normalize.normalize(originalText);
+    }
+
     public static ProcessedTweetText processTweetText(String originalText) {
-        String strippedText = Normalize.normalize(originalText);
+        String strippedText = stripText(originalText);
 
         char[] chars = strippedText.toCharArray();
         Arrays.sort(chars);
