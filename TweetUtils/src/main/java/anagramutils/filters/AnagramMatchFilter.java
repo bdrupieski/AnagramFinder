@@ -9,7 +9,8 @@ public class AnagramMatchFilter {
     }
 
     public static boolean isGoodMatch(AnagramMatch anagramMatch) {
-        return anagramMatch.getLcsLengthToTotalLengthRatio() > 0.4 &&
+        return anagramMatch.getInterestingFactor() > 0.4 &&
+                anagramMatch.getLcsLengthToTotalLengthRatio() > 0.4 &&
                 anagramMatch.getEditDistanceToLengthRatio() > 0.4 &&
                 anagramMatch.getWordCountDifference() > 0.4 &&
                 anagramMatch.getIsSameRearranged() != IsSameWhenRearrangedEnum.TRUE;
