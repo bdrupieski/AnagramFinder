@@ -18,12 +18,11 @@ public class Tweet {
     private String tweetSortedStrippedText;
     private Long userId;
     private String userName;
-    private boolean isMatched;
 
     private Tweet() {
     }
 
-    private Tweet(UUID id, long statusId, Timestamp createdAt, String tweetOriginalText, String tweetStrippedText, String tweetSortedStrippedText, Long userId, String userName, boolean isMatched) {
+    private Tweet(UUID id, long statusId, Timestamp createdAt, String tweetOriginalText, String tweetStrippedText, String tweetSortedStrippedText, Long userId, String userName) {
         this.id = id;
         this.statusId = statusId;
         this.createdAt = createdAt;
@@ -32,11 +31,10 @@ public class Tweet {
         this.tweetSortedStrippedText = tweetSortedStrippedText;
         this.userId = userId;
         this.userName = userName;
-        this.isMatched = isMatched;
     }
 
-    public Tweet(UUID id, long statusId, Timestamp createdAt, String tweetOriginalText, String tweetSortedStrippedText, Long userId, String userName, boolean isMatched) {
-        this(id, statusId, createdAt, tweetOriginalText, stripText(tweetOriginalText), tweetSortedStrippedText, userId, userName, isMatched);
+    public Tweet(UUID id, long statusId, Timestamp createdAt, String tweetOriginalText, String tweetSortedStrippedText, Long userId, String userName) {
+        this(id, statusId, createdAt, tweetOriginalText, stripText(tweetOriginalText), tweetSortedStrippedText, userId, userName);
     }
 
     private static String stripText(String originalText) {
@@ -59,7 +57,7 @@ public class Tweet {
         return new Tweet(UUID.randomUUID(), status.getId(), new java.sql.Timestamp(status.getCreatedAt().getTime()),
                 status.getText(), processedTweetText.getStrippedText(),
                 processedTweetText.getSortedStrippedText(), status.getUser().getId(),
-                status.getUser().getScreenName(), false);
+                status.getUser().getScreenName());
     }
 
     public UUID getId() {
@@ -94,10 +92,6 @@ public class Tweet {
         return userName;
     }
 
-    public boolean getIsMatched() {
-        return isMatched;
-    }
-
     @Override
     public String toString() {
         return "Tweet{" +
@@ -109,7 +103,6 @@ public class Tweet {
                 ", tweetSortedStrippedText='" + tweetSortedStrippedText + '\'' +
                 ", userId=" + userId +
                 ", userName='" + userName + '\'' +
-                ", isMatched=" + isMatched +
                 '}';
     }
 }

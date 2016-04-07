@@ -16,8 +16,7 @@ public class TweetMapper implements ResultSetMapper<Tweet> {
                 r.getString("original_text"),
                 r.getString("stripped_sorted_text"),
                 r.getLong("user_id"),
-                r.getString("user_name"),
-                r.getBoolean("is_matched")
+                r.getString("user_name")
         );
     }
 }

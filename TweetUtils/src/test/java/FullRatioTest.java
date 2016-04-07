@@ -12,7 +12,7 @@ public class FullRatioTest {
     private static Tweet tweetFromText(String text) {
         ProcessedTweetText processedTweetText = Tweet.processTweetText(text);
         return new Tweet(UUID.randomUUID(), 1, new Timestamp(1), text,
-                processedTweetText.getSortedStrippedText(), 1L, "", false);
+                processedTweetText.getSortedStrippedText(), 1L, "");
     }
 
     private static AnagramMatch matchFromText(String a, String b) {

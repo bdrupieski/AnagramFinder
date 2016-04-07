@@ -18,8 +18,7 @@ public interface TweetDao {
             "original_text, " +
             "stripped_sorted_text, " +
             "user_id, " +
-            "user_name, " +
-            "is_matched" +
+            "user_name" +
             ") " +
             "values " +
             "(" +
@@ -29,8 +28,7 @@ public interface TweetDao {
             ":tweetOriginalText, " +
             ":tweetSortedStrippedText, " +
             ":userId, " +
-            ":userName, " +
-            ":isMatched" +
+            ":userName" +
             ")")
     void insert(@BindBean Tweet tweet);
 
