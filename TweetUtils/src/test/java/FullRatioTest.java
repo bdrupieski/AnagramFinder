@@ -9,15 +9,9 @@ import java.util.UUID;
 
 public class FullRatioTest {
 
-    private static Tweet tweetFromText(String text) {
-        ProcessedTweetText processedTweetText = Tweet.processTweetText(text);
-        return new Tweet(UUID.randomUUID(), 1, new Timestamp(1), text,
-                processedTweetText.getSortedStrippedText(), 1L, "");
-    }
-
     private static AnagramMatch matchFromText(String a, String b) {
-        Tweet tweetA = tweetFromText(a);
-        Tweet tweetB = tweetFromText(b);
+        Tweet tweetA = Util.tweetFromText(a);
+        Tweet tweetB = Util.tweetFromText(b);
         return AnagramMatch.fromTweetPair(tweetA, tweetB);
     }
 

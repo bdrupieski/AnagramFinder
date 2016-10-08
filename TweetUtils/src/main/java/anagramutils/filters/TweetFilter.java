@@ -11,7 +11,12 @@ public class TweetFilter {
         return tweet.getTweetStrippedText().length() > 8;
     }
 
+    private static boolean doesNotContainNumber(Tweet tweet) {
+        return !tweet.getTweetSortedStrippedText().matches(".*[0-9].*");
+    }
+
     public static boolean isGoodTweet(Tweet tweet) {
-        return isLongEnough(tweet);
+        return isLongEnough(tweet) &&
+                doesNotContainNumber(tweet);
     }
 }
