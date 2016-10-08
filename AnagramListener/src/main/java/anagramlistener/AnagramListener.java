@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.zeromq.ZMQ;
 import anagramutils.Tweet;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -31,7 +32,8 @@ public class AnagramListener {
         subscriber.connect("tcp://localhost:5558");
         subscriber.subscribe(new byte[0]);
         executorService = Executors.newCachedThreadPool();
-        dbi = configureDatabase();
+        Config appConfig = GetAppConfig();
+        dbi = configureDatabase(appConfig);
 
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
@@ -42,13 +44,23 @@ public class AnagramListener {
         });
     }
 
-    private DBI configureDatabase() {
-        Config dbConfig = ConfigFactory.load("db");
-        HikariConfig config = new HikariConfig();
-        config.setJdbcUrl(dbConfig.getString("database.url"));
-        config.setUsername(dbConfig.getString("database.user"));
-        config.setPassword(dbConfig.getString("database.password"));
-        HikariDataSource hikariDataSource = new HikariDataSource(config);
+    private Config GetAppConfig() {
+        Config appConfig;
+        File f = new File("application.conf");
+        if (f.exists()) {
+            appConfig = ConfigFactory.parseFile(f);
+        } else {
+            appConfig = ConfigFactory.load();
+        }
+        return appConfig;
+    }
+
+    private DBI configureDatabase(Config appConfig) {
+        HikariConfig hikariConfig = new HikariConfig();
+        hikariConfig.setJdbcUrl(appConfig.getString("database.url"));
+        hikariConfig.setUsername(appConfig.getString("database.user"));
+        hikariConfig.setPassword(appConfig.getString("database.password"));
+        HikariDataSource hikariDataSource = new HikariDataSource(hikariConfig);
 
         return new DBI(hikariDataSource);
     }
@@ -70,8 +82,7 @@ public class AnagramListener {
             try {
                 Tweet tweet = mapper.readValue(tweetJson, Tweet.class);
                 executorService.submit(new CandidateTweetProcessor(tweet, dbi, counts));
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 logger.error(e.getMessage());
             }
 
