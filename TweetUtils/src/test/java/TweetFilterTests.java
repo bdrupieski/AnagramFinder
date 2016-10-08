@@ -18,6 +18,12 @@ public class TweetFilterTests {
     }
 
     @Test
+    public void isNotTooLong() {
+        Tweet tweet = Util.tweetFromText("a tweet that is altogether way too long");
+        Assert.assertFalse(TweetFilter.isGoodTweet(tweet));
+    }
+
+    @Test
     public void doesNotContainNumbers() {
         Tweet tweet = Util.tweetFromText("long enough but contains 4");
         Assert.assertFalse(TweetFilter.isGoodTweet(tweet));
