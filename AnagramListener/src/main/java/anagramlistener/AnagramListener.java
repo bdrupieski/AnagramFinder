@@ -32,7 +32,7 @@ public class AnagramListener {
         subscriber.connect("tcp://localhost:5558");
         subscriber.subscribe(new byte[0]);
         executorService = Executors.newCachedThreadPool();
-        Config appConfig = GetAppConfig();
+        Config appConfig = getAppConfig();
         dbi = configureDatabase(appConfig);
 
         Runtime.getRuntime().addShutdownHook(new Thread() {
@@ -44,7 +44,7 @@ public class AnagramListener {
         });
     }
 
-    private Config GetAppConfig() {
+    private Config getAppConfig() {
         Config appConfig;
         File f = new File("application.conf");
         if (f.exists()) {

@@ -10,6 +10,8 @@ import twitter4j.TwitterStreamFactory;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 
+import java.io.File;
+
 public class TweetProducer {
 
     private static Logger logger = LoggerFactory.getLogger(TweetProducer.class);
@@ -34,7 +36,7 @@ public class TweetProducer {
     }
 
     private Configuration buildTwitterConfig() {
-        Config twitterConfig = ConfigFactory.load("twitterapi.conf");
+        Config twitterConfig = getTwitterConfig();
         return new ConfigurationBuilder()
                 .setOAuthConsumerKey(twitterConfig.getString("twitter.consumerkey"))
                 .setOAuthConsumerSecret(twitterConfig.getString("twitter.consumersecret"))
@@ -42,6 +44,18 @@ public class TweetProducer {
                 .setOAuthAccessTokenSecret(twitterConfig.getString("twitter.accesstokensecret"))
                 .setAsyncNumThreads(1)
                 .build();
+    }
+
+    private Config getTwitterConfig() {
+        Config appConfig;
+        String twitterConfigName = "twitterapi.conf";
+        File f = new File(twitterConfigName);
+        if (f.exists()) {
+            appConfig = ConfigFactory.parseFile(f);
+        } else {
+            appConfig = ConfigFactory.load(twitterConfigName);
+        }
+        return appConfig;
     }
 
     private void cleanUp() {
