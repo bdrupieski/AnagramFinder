@@ -20,13 +20,11 @@ public class AnagramMatch {
     private float differentWordCountToTotalWordCount;
     private IsSameWhenRearrangedEnum isSameRearranged;
     private float interestingFactor;
-    private boolean posted;
-    private boolean rejected;
 
     private AnagramMatch() {
     }
 
-    public AnagramMatch(int id, UUID tweet1Id, UUID tweet2Id, int editDistanceOriginalText, int editDistanceStrippedText, int hammingDistanceStrippedText, int longestCommonSubstringLengthStrippedText, int wordCountDifference, int totalUniqueWords, float lcsLengthToTotalLengthRatio, float editDistanceToLengthRatio, float differentWordCountToTotalWordCount, IsSameWhenRearrangedEnum isSameRearranged, float interestingFactor, boolean posted, boolean rejected) {
+    public AnagramMatch(int id, UUID tweet1Id, UUID tweet2Id, int editDistanceOriginalText, int editDistanceStrippedText, int hammingDistanceStrippedText, int longestCommonSubstringLengthStrippedText, int wordCountDifference, int totalUniqueWords, float lcsLengthToTotalLengthRatio, float editDistanceToLengthRatio, float differentWordCountToTotalWordCount, IsSameWhenRearrangedEnum isSameRearranged, float interestingFactor) {
         this.id = id;
         this.tweet1Id = tweet1Id;
         this.tweet2Id = tweet2Id;
@@ -41,8 +39,6 @@ public class AnagramMatch {
         this.differentWordCountToTotalWordCount = differentWordCountToTotalWordCount;
         this.isSameRearranged = isSameRearranged;
         this.interestingFactor = interestingFactor;
-        this.posted = posted;
-        this.rejected = rejected;
     }
 
     public static AnagramMatch fromTweetPair(Tweet a, Tweet b) {
@@ -62,7 +58,7 @@ public class AnagramMatch {
                 hammingDistanceStrippedText, lcsLengthStrippedText,
                 wordCountDifference.getWordCountDifference(), wordCountDifference.getTotalWords(),
                 inverseLcsLengthToLengthRatio, editDistanceToLengthRatio, diffWordCountToTotalWordCountRatio,
-                sameWhenWordsRearranged,interestingFactor, false, false);
+                sameWhenWordsRearranged, interestingFactor);
     }
 
     public int getId() {
@@ -119,13 +115,5 @@ public class AnagramMatch {
 
     public float getInterestingFactor() {
         return interestingFactor;
-    }
-
-    public boolean IsPosted() {
-        return posted;
-    }
-
-    public boolean IsRejected() {
-        return rejected;
     }
 }

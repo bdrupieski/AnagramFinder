@@ -21,8 +21,6 @@ public interface AnagramMatchDao {
             "different_word_count_to_total_word_count_ratio, " +
             "is_same_rearranged, " +
             "interesting_factor, " +
-            "posted, " +
-            "rejected" +
             ") " +
             "values " +
             "(" +
@@ -39,8 +37,6 @@ public interface AnagramMatchDao {
             ":differentWordCountToTotalWordCount, " +
             ":isSameRearranged, " +
             ":interestingFactor, " +
-            ":posted, " +
-            ":rejected" +
             ")")
     void insert(@BindAnagramMatch Iterable<AnagramMatch> anagramMatches);
 

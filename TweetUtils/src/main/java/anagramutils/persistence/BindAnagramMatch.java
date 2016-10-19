@@ -35,8 +35,6 @@ public @interface BindAnagramMatch
                     q.bind("differentWordCountToTotalWordCount", arg.getDifferentWordCountToTotalWordCount());
                     q.bind("isSameRearranged", arg.getIsSameRearranged().getDatabaseValue());
                     q.bind("interestingFactor", arg.getInterestingFactor());
-                    q.bind("posted", arg.IsPosted());
-                    q.bind("rejected", arg.IsRejected());
                 }
             };
         }
