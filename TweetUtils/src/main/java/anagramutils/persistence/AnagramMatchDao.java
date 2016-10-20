@@ -20,7 +20,7 @@ public interface AnagramMatchDao {
             "edit_distance_to_length_ratio, " +
             "different_word_count_to_total_word_count_ratio, " +
             "is_same_rearranged, " +
-            "interesting_factor, " +
+            "interesting_factor " +
             ") " +
             "values " +
             "(" +
@@ -36,7 +36,7 @@ public interface AnagramMatchDao {
             ":editDistanceToLengthRatio, " +
             ":differentWordCountToTotalWordCount, " +
             ":isSameRearranged, " +
-            ":interestingFactor, " +
+            ":interestingFactor " +
             ")")
     void insert(@BindAnagramMatch Iterable<AnagramMatch> anagramMatches);
 
