@@ -26,7 +26,7 @@ CREATE TABLE ANAGRAM_MATCHES (
   DIFFERENT_WORD_COUNT_TO_TOTAL_WORD_COUNT_RATIO REAL                                NOT NULL,
   IS_SAME_REARRANGED                             INTEGER                             NOT NULL,
   INTERESTING_FACTOR                             REAL                                NOT NULL,
-  REJECTED                                       BOOLEAN                             NOT NULL,
+  REJECTED                                       BOOLEAN DEFAULT FALSE               NOT NULL,
   TWEET1_RETWEET_ID                              BIGINT                              NULL,
   TWEET2_RETWEET_ID                              BIGINT                              NULL,
   DATE_RETWEETED                                 TIMESTAMP                           NULL,
