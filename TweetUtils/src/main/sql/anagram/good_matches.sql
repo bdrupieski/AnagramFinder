@@ -43,4 +43,4 @@ WHERE
   A.different_word_count_to_total_word_count_ratio > 0.4 AND
   A.edit_distance_to_length_ratio > 0.4
 ORDER BY
-  T1.created_at desc;
+  A.date_created desc;
