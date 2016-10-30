@@ -30,6 +30,7 @@ CREATE TABLE ANAGRAM_MATCHES (
   TWEET1_RETWEET_ID                              BIGINT                              NULL,
   TWEET2_RETWEET_ID                              BIGINT                              NULL,
   DATE_RETWEETED                                 TIMESTAMP                           NULL,
+  DATE_UNRETWEETED                               TIMESTAMP                           NULL,
   DATE_CREATED                                   TIMESTAMP DEFAULT current_timestamp NOT NULL
 );
 
