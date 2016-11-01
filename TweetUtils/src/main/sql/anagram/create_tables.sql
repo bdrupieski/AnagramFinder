@@ -30,8 +30,11 @@ CREATE TABLE ANAGRAM_MATCHES (
   TWEET1_RETWEET_ID                              BIGINT                              NULL,
   TWEET2_RETWEET_ID                              BIGINT                              NULL,
   DATE_RETWEETED                                 TIMESTAMP                           NULL,
+  DATE_CREATED                                   TIMESTAMP DEFAULT current_timestamp NOT NULL,
   DATE_UNRETWEETED                               TIMESTAMP                           NULL,
-  DATE_CREATED                                   TIMESTAMP DEFAULT current_timestamp NOT NULL
+  ATTEMPTED_APPROVAL                             BOOLEAN                             NULL,
+  AUTO_REJECTED                                  BOOLEAN                             NULL,
+  DATE_REJECTED                                  TIMESTAMP                           NULL
 );
 
 CREATE INDEX INTERESTING_FACTOR_INDEX
