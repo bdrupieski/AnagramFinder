@@ -34,7 +34,8 @@ CREATE TABLE ANAGRAM_MATCHES (
   DATE_UNRETWEETED                               TIMESTAMP                           NULL,
   ATTEMPTED_APPROVAL                             BOOLEAN                             NULL,
   AUTO_REJECTED                                  BOOLEAN                             NULL,
-  DATE_REJECTED                                  TIMESTAMP                           NULL
+  DATE_REJECTED                                  TIMESTAMP                           NULL,
+  DATE_POSTED_TUMBLR                             TIMESTAMP                           NULL
 );
 
 CREATE INDEX INTERESTING_FACTOR_INDEX
