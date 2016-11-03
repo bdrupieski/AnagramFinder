@@ -36,7 +36,7 @@ CREATE TABLE ANAGRAM_MATCHES (
   AUTO_REJECTED                                  BOOLEAN                             NULL,
   DATE_REJECTED                                  TIMESTAMP                           NULL,
   DATE_POSTED_TUMBLR                             TIMESTAMP                           NULL,
-  TUMBLR_POST_ID                                 INTEGER                             NULL
+  TUMBLR_POST_ID                                 BIGINT                              NULL
 );
 
 CREATE INDEX INTERESTING_FACTOR_INDEX
