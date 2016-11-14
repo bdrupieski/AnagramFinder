@@ -44,3 +44,18 @@ CREATE INDEX INTERESTING_FACTOR_INDEX
   ON ANAGRAM_MATCHES (INTERESTING_FACTOR);
 CREATE INDEX DATE_CREATED_INDEX
   ON ANAGRAM_MATCHES (date_created);
+
+CREATE TABLE match_queue
+(
+  id             INTEGER PRIMARY KEY            NOT NULL,
+  match_id       INTEGER                        NOT NULL,
+  order_as_shown BOOLEAN DEFAULT TRUE           NOT NULL,
+  date_queued    TIMESTAMP DEFAULT now()        NOT NULL,
+  date_posted    TIMESTAMP,
+  status         TEXT DEFAULT 'pending' :: TEXT NOT NULL,
+  message        TEXT,
+  CONSTRAINT match_queue_match_id_fkey FOREIGN KEY (match_id) REFERENCES anagram_matches (id)
+);
+
+CREATE INDEX match_queue_status_index
+  ON match_queue (status);
