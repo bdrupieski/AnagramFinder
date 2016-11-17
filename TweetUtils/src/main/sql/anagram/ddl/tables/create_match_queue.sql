@@ -11,6 +11,7 @@ CREATE TABLE public.match_queue
     date_posted timestamp without time zone,
     status text COLLATE pg_catalog."default" NOT NULL DEFAULT 'pending'::text,
     message text COLLATE pg_catalog."default",
+    date_error timestamp without time zone,
     CONSTRAINT match_queue_pkey PRIMARY KEY (id),
     CONSTRAINT match_queue_match_id_fkey FOREIGN KEY (match_id)
         REFERENCES public.anagram_matches (id) MATCH SIMPLE
