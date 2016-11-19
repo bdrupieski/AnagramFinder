@@ -12,7 +12,6 @@ import twitter4j.Status;
 import twitter4j.StatusDeletionNotice;
 import twitter4j.StatusListener;
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicLong;
 
 public class PublishFilteredStatusListener implements StatusListener {
 
@@ -20,7 +19,7 @@ public class PublishFilteredStatusListener implements StatusListener {
 
     private ObjectMapper mapper = new ObjectMapper();
     private ZMQ.Socket publisher;
-    private AtomicLong publishedCount = new AtomicLong();
+    private PublishedTweetCountLogger publishedTweetCountLogger = new PublishedTweetCountLogger();
 
     PublishFilteredStatusListener(ZMQ.Socket publisher) {
         this.publisher = publisher;
@@ -28,20 +27,18 @@ public class PublishFilteredStatusListener implements StatusListener {
 
     @Override
     public void onStatus(Status status) {
+        publishedTweetCountLogger.incrementReceivedStatusCount();
         if (StatusFilter.isGoodStatus(status)) {
+            publishedTweetCountLogger.incrementStatusMetFilterCount();
             Tweet tweet = Tweet.fromStatus(status);
             if (TweetFilter.isGoodTweet(tweet)) {
                 try {
                     logger.debug("publishing tweet: {}", tweet.getTweetOriginalText());
                     String tweetJson = mapper.writeValueAsString(tweet);
                     publisher.send(tweetJson);
-                    publishedCount.incrementAndGet();
+                    publishedTweetCountLogger.incrementPublishedTweetCount();
                 } catch (IOException e) {
                     logger.error(e.getMessage());
-                }
-
-                if (publishedCount.get() % 10_000 == 0) {
-                    logger.info("{} published.", publishedCount.get());
                 }
             }
         }
