@@ -75,7 +75,7 @@ public class AnagramListener {
 
     public void run() {
 
-        ProcessedTweetCounts counts = new ProcessedTweetCounts();
+        ProcessedTweetCountLogger counts = new ProcessedTweetCountLogger();
 
         while (!Thread.currentThread().isInterrupted()) {
             String tweetJson = subscriber.recvStr(0).trim();
@@ -84,12 +84,6 @@ public class AnagramListener {
                 executorService.submit(new CandidateTweetProcessor(tweet, dbi, counts));
             } catch (IOException e) {
                 logger.error(e.getMessage());
-            }
-
-            if (counts.getProcessedTweetCount() % 10_000 == 0) {
-                logger.info("{} processed tweets. {} saved tweets. {} saved matches.",
-                        counts.getProcessedTweetCount(), counts.getSavedTweetCount(),
-                        counts.getSavedAnagramCount());
             }
         }
     }

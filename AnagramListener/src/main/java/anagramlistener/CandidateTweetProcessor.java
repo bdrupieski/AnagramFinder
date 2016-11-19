@@ -18,9 +18,9 @@ public class CandidateTweetProcessor implements Runnable {
 
     private Tweet newTweet;
     private DBI dbi;
-    private ProcessedTweetCounts counts;
+    private ProcessedTweetCountLogger counts;
 
-    public CandidateTweetProcessor(Tweet newTweet, DBI dbi, ProcessedTweetCounts counts) {
+    public CandidateTweetProcessor(Tweet newTweet, DBI dbi, ProcessedTweetCountLogger counts) {
         this.newTweet = newTweet;
         this.dbi = dbi;
         this.counts = counts;

@@ -35,13 +35,14 @@ public class PublishedTweetCountLogger {
         long tweetCount = publishedTweetCount.incrementAndGet();
         publishedTweetCountSinceLastReset.incrementAndGet();
 
-        if (tweetCount % 10_000 == 0) {
+        long processedThreshold = 10_000;
+        if (tweetCount % processedThreshold == 0) {
             Instant now = Instant.now();
 
             Duration timeSinceLastReset = Duration.between(lastReset, now);
             long secondsSinceReset = timeSinceLastReset.getSeconds();
 
-            logger.info("In the previous {}:", String.format("%d:%02d:%02d",
+            logger.info("Another {} processed. In the previous {}:", processedThreshold, String.format("%d:%02d:%02d",
                     secondsSinceReset / 3600,
                     (secondsSinceReset % 3600) / 60,
                     (secondsSinceReset % 60)));
