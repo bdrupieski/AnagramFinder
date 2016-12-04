@@ -33,4 +33,13 @@ GRANT ALL ON TABLE public.tweets TO postgres;
 CREATE INDEX stripped_sorted_text_index
     ON public.tweets USING btree
     (stripped_sorted_text COLLATE pg_catalog."default")
-    TABLESPACE pg_default;
+TABLESPACE pg_default;
+
+-- Index: tweets_date_existence_last_checked_index
+
+-- DROP INDEX public.tweets_date_existence_last_checked_index;
+
+CREATE INDEX tweets_date_existence_last_checked_index
+    ON public.tweets USING btree
+    (date_existence_last_checked)
+TABLESPACE pg_default;
