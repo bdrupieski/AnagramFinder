@@ -13,6 +13,6 @@ SELECT
 FROM
   anagram_matches
   INNER JOIN tweets tweet1 ON anagram_matches.tweet1_id = tweet1.id
-  INNER JOIN tweets tweet2 ON anagram_matches.tweet2_id = tweet1.id
+  INNER JOIN tweets tweet2 ON anagram_matches.tweet2_id = tweet2.id
 ORDER BY
   anagram_matches.interesting_factor DESC;
