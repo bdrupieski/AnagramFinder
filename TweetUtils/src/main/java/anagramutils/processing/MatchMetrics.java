@@ -2,14 +2,30 @@ package anagramutils.processing;
 
 import anagramutils.IsSameWhenRearrangedEnum;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.io.*;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class MatchMetrics {
+
+    private static HashSet<String> englishWords;
+
+    static {
+        ClassLoader classLoader = MatchMetrics.class.getClassLoader();
+
+        try {
+            InputStream resourceAsStream = classLoader.getResourceAsStream("english_words.txt");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(resourceAsStream));
+            englishWords = new HashSet<>();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                englishWords.add(line);
+            }
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+    }
 
     private MatchMetrics() {
     }
@@ -203,5 +219,19 @@ public class MatchMetrics {
                 return IsSameWhenRearrangedEnum.FALSE;
             }
         }
+    }
+
+    public static int numberOfEnglishWords(String a) {
+        String[] words = tokenizeTweetText(a);
+
+        int count = 0;
+
+        for (String word : words) {
+            if (englishWords.contains(word.toLowerCase())) {
+                count++;
+            }
+        }
+
+        return count;
     }
 }

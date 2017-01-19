@@ -1,6 +1,7 @@
 package anagramutils;
 
 import anagramutils.processing.MatchMetrics;
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
 
 import java.util.UUID;
 
@@ -18,13 +19,14 @@ public class AnagramMatch {
     private float lcsLengthToTotalLengthRatio;
     private float editDistanceToLengthRatio;
     private float differentWordCountToTotalWordCount;
+    private float englishWordsToTotalWordCount;
     private IsSameWhenRearrangedEnum isSameRearranged;
     private float interestingFactor;
 
     private AnagramMatch() {
     }
 
-    public AnagramMatch(int id, UUID tweet1Id, UUID tweet2Id, int editDistanceOriginalText, int editDistanceStrippedText, int hammingDistanceStrippedText, int longestCommonSubstringLengthStrippedText, int wordCountDifference, int totalUniqueWords, float lcsLengthToTotalLengthRatio, float editDistanceToLengthRatio, float differentWordCountToTotalWordCount, IsSameWhenRearrangedEnum isSameRearranged, float interestingFactor) {
+    public AnagramMatch(int id, UUID tweet1Id, UUID tweet2Id, int editDistanceOriginalText, int editDistanceStrippedText, int hammingDistanceStrippedText, int longestCommonSubstringLengthStrippedText, int wordCountDifference, int totalUniqueWords, float lcsLengthToTotalLengthRatio, float editDistanceToLengthRatio, float differentWordCountToTotalWordCount, float englishWordsToTotalWordCount, IsSameWhenRearrangedEnum isSameRearranged, float interestingFactor) {
         this.id = id;
         this.tweet1Id = tweet1Id;
         this.tweet2Id = tweet2Id;
@@ -37,6 +39,7 @@ public class AnagramMatch {
         this.lcsLengthToTotalLengthRatio = lcsLengthToTotalLengthRatio;
         this.editDistanceToLengthRatio = editDistanceToLengthRatio;
         this.differentWordCountToTotalWordCount = differentWordCountToTotalWordCount;
+        this.englishWordsToTotalWordCount = englishWordsToTotalWordCount;
         this.isSameRearranged = isSameRearranged;
         this.interestingFactor = interestingFactor;
     }
@@ -52,13 +55,16 @@ public class AnagramMatch {
         float inverseLcsLengthToLengthRatio = 1 - ((float) lcsLengthStrippedText / length);
         float editDistanceToLengthRatio = (float)strippedTextEditDistance / length;
         float diffWordCountToTotalWordCountRatio = (float)wordCountDifference.getWordCountDifference() / wordCountDifference.getTotalWords();
+        int englishWordsInTweetA = MatchMetrics.numberOfEnglishWords(a.getTweetOriginalText());
+        int englishWordsInTweetB = MatchMetrics.numberOfEnglishWords(b.getTweetOriginalText());
+        float englishWordsToTotalWordCountRatio = (float)(englishWordsInTweetA + englishWordsInTweetB) / wordCountDifference.getTotalWords();
         float interestingFactor = (inverseLcsLengthToLengthRatio + editDistanceToLengthRatio + diffWordCountToTotalWordCountRatio) / 3.0f;
 
         return new AnagramMatch(0, a.getId(), b.getId(), originalTextEditDistance, strippedTextEditDistance,
                 hammingDistanceStrippedText, lcsLengthStrippedText,
                 wordCountDifference.getWordCountDifference(), wordCountDifference.getTotalWords(),
                 inverseLcsLengthToLengthRatio, editDistanceToLengthRatio, diffWordCountToTotalWordCountRatio,
-                sameWhenWordsRearranged, interestingFactor);
+                englishWordsToTotalWordCountRatio, sameWhenWordsRearranged, interestingFactor);
     }
 
     public int getId() {
@@ -107,6 +113,10 @@ public class AnagramMatch {
 
     public float getDifferentWordCountToTotalWordCount() {
         return differentWordCountToTotalWordCount;
+    }
+
+    public float getEnglishWordsToTotalWordCount() {
+        return englishWordsToTotalWordCount;
     }
 
     public IsSameWhenRearrangedEnum getIsSameRearranged() {

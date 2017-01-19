@@ -23,6 +23,7 @@ public class AnagramMatchMapper implements ResultSetMapper<AnagramMatch> {
                 r.getFloat("inverse_lcs_length_to_total_length_ratio"),
                 r.getFloat("edit_distance_to_length_ratio"),
                 r.getFloat("different_word_count_to_total_word_count_ratio"),
+                r.getFloat("english_words_to_total_word_count_ratio"),
                 IsSameWhenRearrangedEnum.fromDatabaseInt(r.getInt("is_same_rearranged")),
                 r.getFloat("interesting_factor")
         );
