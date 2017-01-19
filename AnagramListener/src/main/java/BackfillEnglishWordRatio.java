@@ -1,4 +1,6 @@
-import anagramutils.processing.MatchMetrics;
+import anagramutils.AnagramMatch;
+import anagramutils.Tweet;
+import anagramutils.processing.ProcessedTweetText;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import com.zaxxer.hikari.HikariConfig;
@@ -39,22 +41,38 @@ public class BackfillEnglishWordRatio {
             String t1OriginalText = (String)props.get("t1_originalText");
             String t2OriginalText = (String)props.get("t2_originalText");
 
-            MatchMetrics.WordCountDifference wordCountDifference = MatchMetrics.getWordCountDifference(t1OriginalText, t2OriginalText);
+            Tweet a = TweetFromText(t1OriginalText);
+            Tweet b = TweetFromText(t2OriginalText);
+            AnagramMatch match = AnagramMatch.fromTweetPair(a, b);
 
-            int englishWordsInTweetA = MatchMetrics.numberOfEnglishWords(t1OriginalText);
-            int englishWordsInTweetB = MatchMetrics.numberOfEnglishWords(t2OriginalText);
-            float englishWordsToTotalWordCountRatio = (float)(englishWordsInTweetA + englishWordsInTweetB) / wordCountDifference.getTotalWords();
+            float englishWordsToTotalWordCountRatio = match.getEnglishWordsToTotalWordCount();
+            float altInterestingFactor = (match.getLcsLengthToTotalLengthRatio() +
+                    match.getEditDistanceToLengthRatio() +
+                    match.getDifferentWordCountToTotalWordCount() +
+                    match.getEnglishWordsToTotalWordCount()) / 4.0f;
 
             System.out.println(id + " " + t1OriginalText + " " + t2OriginalText + " " + englishWordsToTotalWordCountRatio);
+            System.out.println(id + " old IF: " + match.getInterestingFactor() + " alt IF:" + altInterestingFactor);
 
             Update s = h.createStatement("UPDATE anagram_matches\n" +
-                    "SET english_words_to_total_word_count_ratio = :ratio\n" +
+                    "SET english_words_to_total_word_count_ratio = :ratio,\n" +
+                    "alt_interesting_factor = :altInterestingFactor\n" +
                     "WHERE id = :id");
             s.bind("ratio", englishWordsToTotalWordCountRatio);
+            s.bind("altInterestingFactor", altInterestingFactor);
             s.bind("id", id);
             s.execute();
         }
 
         h.close();
+    }
+
+    private static Tweet TweetFromText(String originalText) {
+        ProcessedTweetText processedTweetText = Tweet.processTweetText(originalText);
+
+        return new Tweet(null, 0, null,
+                originalText, processedTweetText.getStrippedText(),
+                processedTweetText.getSortedStrippedText(), 0L,
+                null);
     }
 }

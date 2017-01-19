@@ -22,7 +22,7 @@ public class Tweet {
     private Tweet() {
     }
 
-    private Tweet(UUID id, long statusId, Timestamp createdAt, String tweetOriginalText, String tweetStrippedText, String tweetSortedStrippedText, Long userId, String userName) {
+    public Tweet(UUID id, long statusId, Timestamp createdAt, String tweetOriginalText, String tweetStrippedText, String tweetSortedStrippedText, Long userId, String userName) {
         this.id = id;
         this.statusId = statusId;
         this.createdAt = createdAt;
