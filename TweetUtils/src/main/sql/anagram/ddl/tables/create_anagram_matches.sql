@@ -29,15 +29,16 @@ CREATE TABLE public.anagram_matches
     date_rejected timestamp without time zone,
     date_posted_tumblr timestamp without time zone,
     tumblr_post_id bigint,
+    english_words_to_total_word_count_ratio double precision,
     CONSTRAINT anagram_matches_pkey PRIMARY KEY (id),
     CONSTRAINT anagram_matches_tweet1_id_fkey FOREIGN KEY (tweet1_id)
-        REFERENCES public.tweets (id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION,
+    REFERENCES public.tweets (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION,
     CONSTRAINT anagram_matches_tweet2_id_fkey FOREIGN KEY (tweet2_id)
-        REFERENCES public.tweets (id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
+    REFERENCES public.tweets (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
 )
 WITH (
     OIDS = FALSE
@@ -58,7 +59,7 @@ GRANT ALL ON TABLE public.anagram_matches TO postgres;
 CREATE INDEX date_created_index
     ON public.anagram_matches USING btree
     (date_created)
-    TABLESPACE pg_default;
+TABLESPACE pg_default;
 
 -- Index: interesting_factor_index
 
@@ -67,4 +68,4 @@ CREATE INDEX date_created_index
 CREATE INDEX interesting_factor_index
     ON public.anagram_matches USING btree
     (interesting_factor)
-    TABLESPACE pg_default;
+TABLESPACE pg_default;
