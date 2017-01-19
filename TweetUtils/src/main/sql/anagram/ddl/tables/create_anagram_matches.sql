@@ -30,6 +30,7 @@ CREATE TABLE public.anagram_matches
     date_posted_tumblr timestamp without time zone,
     tumblr_post_id bigint,
     english_words_to_total_word_count_ratio double precision,
+    alt_interesting_factor real,
     CONSTRAINT anagram_matches_pkey PRIMARY KEY (id),
     CONSTRAINT anagram_matches_tweet1_id_fkey FOREIGN KEY (tweet1_id)
     REFERENCES public.tweets (id) MATCH SIMPLE
