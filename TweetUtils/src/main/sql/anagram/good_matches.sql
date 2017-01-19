@@ -2,8 +2,13 @@ SELECT
   anagram_matches.inverse_lcs_length_to_total_length_ratio                      AS lcs_ratio,
   anagram_matches.edit_distance_original_text                                   AS edit_ratio,
   anagram_matches.different_word_count_to_total_word_count_ratio                AS diff_word_count_ratio,
+  anagram_matches.english_words_to_total_word_count_ratio                       AS english_word_count_ratio,
   anagram_matches.is_same_rearranged                                            AS same_rearranged,
   anagram_matches.interesting_factor                                            AS interesting,
+  CASE WHEN anagram_matches.date_retweeted IS NOT NULL
+            AND anagram_matches.date_unretweeted IS NULL
+    THEN 1
+  ELSE 0 END                                                                    AS approved,
   tweet1.original_text                                                          AS t1_text,
   tweet2.original_text                                                          AS t2_text,
   CONCAT('http://twitter.com/', tweet1.user_name, '/status/', tweet1.status_id) AS t1_url,
