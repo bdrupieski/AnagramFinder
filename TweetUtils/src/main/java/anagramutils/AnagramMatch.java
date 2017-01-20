@@ -58,7 +58,7 @@ public class AnagramMatch {
         int englishWordsInTweetA = MatchMetrics.numberOfEnglishWords(a.getTweetOriginalText());
         int englishWordsInTweetB = MatchMetrics.numberOfEnglishWords(b.getTweetOriginalText());
         float englishWordsToTotalWordCountRatio = (float)(englishWordsInTweetA + englishWordsInTweetB) / wordCountDifference.getTotalWords();
-        float interestingFactor = (inverseLcsLengthToLengthRatio + editDistanceToLengthRatio + diffWordCountToTotalWordCountRatio) / 3.0f;
+        float interestingFactor = (inverseLcsLengthToLengthRatio + editDistanceToLengthRatio + diffWordCountToTotalWordCountRatio + englishWordsToTotalWordCountRatio) / 4.0f;
 
         return new AnagramMatch(0, a.getId(), b.getId(), originalTextEditDistance, strippedTextEditDistance,
                 hammingDistanceStrippedText, lcsLengthStrippedText,
