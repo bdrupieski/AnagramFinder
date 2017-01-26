@@ -4,7 +4,7 @@ import csv
 conn = psycopg2.connect("dbname=anagrams user=postgres password=postgres")
 cur = conn.cursor()
 cur.execute(
-"""
+    """
 SELECT
   anagram_matches.id,
   t1.original_text AS t1_original_text,
