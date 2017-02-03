@@ -3,7 +3,7 @@ from typing import List
 
 
 class AnagramMatch:
-    def __init__(self, anagram_match_row):
+    def __init__(self, anagram_match_row) -> None:
         super().__init__()
         self.id = anagram_match_row[0]  # type: str
         self.t1_original_text = anagram_match_row[1]  # type: str
@@ -19,9 +19,9 @@ class AnagramMatch:
         self.different_word_count_to_total_word_count_ratio = float(anagram_match_row[11])  # type: float
         self.english_words_to_total_word_count_ratio = float(anagram_match_row[12])  # type: float
         self.total_words = int(anagram_match_row[13])  # type: int
-        self.attempted_approval = bool(anagram_match_row[14])  # type: bool
-        self.rejected = bool(anagram_match_row[15])  # type: bool
-        self.auto_rejected = bool(anagram_match_row[16])  # type: bool
+        self.attempted_approval = bool(anagram_match_row[14] == "True")  # type: bool
+        self.rejected = bool(anagram_match_row[15] == "True")  # type: bool
+        self.auto_rejected = bool(anagram_match_row[16] == "True")  # type: bool
         self.date_created = anagram_match_row[17]  # type: str
         self.date_retweeted = anagram_match_row[18]  # type: str
         self.date_unretweeted = anagram_match_row[19]  # type: str
