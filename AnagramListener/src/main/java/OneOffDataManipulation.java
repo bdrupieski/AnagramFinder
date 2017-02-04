@@ -15,14 +15,11 @@ import java.util.Map;
 public class OneOffDataManipulation {
 
     public static void main(String[] args)  {
-        UpdateInterestingFactor();
+        updateInterestingFactor();
     }
 
-    private static void BackFillEnglishWordAndAltInterestingFactor() {
-        DBI dbi = buildDbi();
-        Handle h = dbi.open();
-
-        List<Map<String, Object>> rs = h.select(
+    private static List<Map<String, Object>> getAllMatches(Handle handle) {
+        return handle.select(
                 "SELECT\n" +
                         "  anagram_matches.id,\n" +
                         "  tweet1.original_text AS t1_originalText,\n" +
@@ -31,8 +28,54 @@ public class OneOffDataManipulation {
                         "  anagram_matches\n" +
                         "  INNER JOIN tweets tweet1 ON anagram_matches.tweet1_id = tweet1.id\n" +
                         "  INNER JOIN tweets tweet2 ON anagram_matches.tweet2_id = tweet2.id");
+    }
 
-        for (Map<String, Object> props: rs) {
+    private static void backFillTotalLengthRatio() {
+        DBI dbi = buildDbi();
+        Handle h = dbi.open();
+
+        List<Map<String, Object>> allMatches = getAllMatches(h);
+
+        for (Map<String, Object> props: allMatches) {
+            Integer id = (Integer)props.get("id");
+            String t1OriginalText = (String)props.get("t1_originalText");
+            String t2OriginalText = (String)props.get("t2_originalText");
+
+            Tweet a = tweetFromText(t1OriginalText);
+            Tweet b = tweetFromText(t2OriginalText);
+            AnagramMatch match = AnagramMatch.fromTweetPair(a, b);
+
+            float totalLengthRatio = match.getTotalLengthToHighestLengthCapturedRatio();
+            float altInterestingFactor = (
+                    match.getLcsLengthToTotalLengthRatio() +
+                    match.getEditDistanceToLengthRatio() +
+                    match.getDifferentWordCountToTotalWordCount() +
+                    match.getEnglishWordsToTotalWordCount() +
+                    match.getTotalLengthToHighestLengthCapturedRatio()) / 5.0f;
+
+            System.out.println(id + " " + t1OriginalText + " " + t2OriginalText + " " + totalLengthRatio);
+            System.out.println(id + " old IF: " + match.getInterestingFactor() + " alt IF:" + altInterestingFactor);
+
+            Update s = h.createStatement("UPDATE anagram_matches SET\n" +
+                    "total_length_to_highest_length_captured_ratio = :ratio,\n" +
+                    "alt_interesting_factor = :altInterestingFactor\n" +
+                    "WHERE id = :id");
+            s.bind("ratio", totalLengthRatio);
+            s.bind("altInterestingFactor", altInterestingFactor);
+            s.bind("id", id);
+            s.execute();
+        }
+
+        h.close();
+    }
+
+    private static void backFillEnglishWordAndAltInterestingFactor() {
+        DBI dbi = buildDbi();
+        Handle h = dbi.open();
+
+        List<Map<String, Object>> allMatches = getAllMatches(h);
+
+        for (Map<String, Object> props: allMatches) {
             Integer id = (Integer)props.get("id");
             String t1OriginalText = (String)props.get("t1_originalText");
             String t2OriginalText = (String)props.get("t2_originalText");
@@ -63,7 +106,7 @@ public class OneOffDataManipulation {
         h.close();
     }
 
-    private static void UpdateInterestingFactor() {
+    private static void updateInterestingFactor() {
         DBI dbi = buildDbi();
         Handle h = dbi.open();
 

@@ -3,7 +3,7 @@ import org.junit.Test;
 import anagramutils.IsSameWhenRearrangedEnum;
 import anagramutils.processing.MatchMetrics;
 
-public class IsMatchWhenWordsRearrangedTest {
+public class IsMatchWhenWordsRearrangedTests {
 
     private static void isMatch(String a, String b, IsSameWhenRearrangedEnum isSame) {
         Assert.assertEquals(isSame, MatchMetrics.isSameWhenWordsRearranged(a, b));

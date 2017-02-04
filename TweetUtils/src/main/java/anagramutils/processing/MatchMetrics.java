@@ -1,6 +1,8 @@
 package anagramutils.processing;
 
 import anagramutils.IsSameWhenRearrangedEnum;
+import anagramutils.Tweet;
+import anagramutils.filters.TweetFilter;
 
 import java.io.*;
 import java.util.*;
@@ -233,5 +235,18 @@ public class MatchMetrics {
         }
 
         return count;
+    }
+
+    public static float totalLengthRatio(int tweetCharacterLength) {
+        int minLength = TweetFilter.TWEET_MIN_LENGTH_EXCLUSIVE;
+        int maxLength = TweetFilter.TWEET_MAX_LENGTH_INCLUSIVE;
+        return totalLengthRatio(tweetCharacterLength, minLength, maxLength);
+    }
+
+    public static float totalLengthRatio(int tweetCharacterLength, int minLength, int maxLength) {
+        int range = maxLength - minLength;
+        int adjustedTweetLength = tweetCharacterLength - minLength;
+
+        return (float)adjustedTweetLength / range;
     }
 }

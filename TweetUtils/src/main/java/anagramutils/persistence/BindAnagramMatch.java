@@ -29,6 +29,7 @@ public @interface BindAnagramMatch {
                     q.bind("editDistanceToLengthRatio", arg.getEditDistanceToLengthRatio());
                     q.bind("differentWordCountToTotalWordCount", arg.getDifferentWordCountToTotalWordCount());
                     q.bind("englishWordsToTotalWordCount", arg.getEnglishWordsToTotalWordCount());
+                    q.bind("totalLengthToHighestLengthCapturedRatio", arg.getTotalLengthToHighestLengthCapturedRatio());
                     q.bind("isSameRearranged", arg.getIsSameRearranged().getDatabaseValue());
                     q.bind("interestingFactor", arg.getInterestingFactor());
                 }

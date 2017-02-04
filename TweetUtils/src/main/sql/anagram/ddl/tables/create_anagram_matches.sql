@@ -35,6 +35,7 @@ CREATE TABLE public.anagram_matches
     unretweeted_manually boolean NOT NULL DEFAULT false,
     unposted_tumblr_manually boolean NOT NULL DEFAULT false,
     unretweeted_legacy_cleanup boolean NOT NULL DEFAULT false,
+    total_length_to_highest_length_captured_ratio real,
     CONSTRAINT anagram_matches_pkey PRIMARY KEY (id),
     CONSTRAINT anagram_matches_tweet1_id_fkey FOREIGN KEY (tweet1_id)
     REFERENCES public.tweets (id) MATCH SIMPLE

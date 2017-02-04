@@ -4,15 +4,18 @@ import anagramutils.Tweet;
 
 public class TweetFilter {
 
+    public static final int TWEET_MIN_LENGTH_EXCLUSIVE = 8;
+    public static final int TWEET_MAX_LENGTH_INCLUSIVE = 30;
+
     private TweetFilter() {
     }
 
     private static boolean isLongEnough(Tweet tweet) {
-        return tweet.getTweetStrippedText().length() > 8;
+        return tweet.getTweetStrippedText().length() > TWEET_MIN_LENGTH_EXCLUSIVE;
     }
 
     private static boolean isNotTooLong(Tweet tweet) {
-        return tweet.getTweetStrippedText().length() <= 30;
+        return tweet.getTweetStrippedText().length() <= TWEET_MAX_LENGTH_INCLUSIVE;
     }
 
     private static boolean doesNotContainNumber(Tweet tweet) {

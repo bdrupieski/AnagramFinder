@@ -20,6 +20,7 @@ public interface AnagramMatchDao {
             "edit_distance_to_length_ratio, " +
             "different_word_count_to_total_word_count_ratio, " +
             "english_words_to_total_word_count_ratio, " +
+            "total_length_to_highest_length_captured_ratio, " +
             "is_same_rearranged, " +
             "interesting_factor " +
             ") " +
@@ -37,6 +38,7 @@ public interface AnagramMatchDao {
             ":editDistanceToLengthRatio, " +
             ":differentWordCountToTotalWordCount, " +
             ":englishWordsToTotalWordCount, " +
+            ":totalLengthToHighestLengthCapturedRatio, " +
             ":isSameRearranged, " +
             ":interestingFactor " +
             ")")

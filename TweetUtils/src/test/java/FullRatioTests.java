@@ -7,7 +7,7 @@ import anagramutils.processing.ProcessedTweetText;
 import java.sql.Timestamp;
 import java.util.UUID;
 
-public class FullRatioTest {
+public class FullRatioTests {
 
     private static AnagramMatch matchFromText(String a, String b) {
         Tweet tweetA = Util.tweetFromText(a);
