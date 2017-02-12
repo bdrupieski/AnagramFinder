@@ -58,6 +58,15 @@ GRANT INSERT, SELECT, UPDATE, DELETE ON TABLE public.anagram_matches TO anagrams
 
 GRANT ALL ON TABLE public.anagram_matches TO postgres;
 
+-- Index: anagram_matches_date_rejected_index
+
+-- DROP INDEX public.anagram_matches_date_rejected_index;
+
+CREATE INDEX anagram_matches_date_rejected_index
+    ON public.anagram_matches USING btree
+    (date_rejected)
+TABLESPACE pg_default;
+
 -- Index: date_created_index
 
 -- DROP INDEX public.date_created_index;
