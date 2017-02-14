@@ -38,6 +38,11 @@ public class IsMatchWhenWordsRearrangedTests {
     }
 
     @Test
+    public void cantHandleIfAllOneWord() {
+        isMatch("yougonnaridethewave", "gonnaridethewaveyou", IsSameWhenRearrangedEnum.FALSE);
+    }
+
+    @Test
     public void dontCalculatePermutationsForLongStrings() {
         isMatch("yes this is a very long string", "yes this is a very long string", IsSameWhenRearrangedEnum.TOO_LONG_TO_COMPUTE);
     }

@@ -52,7 +52,7 @@ public class AnagramMatch {
         int hammingDistanceStrippedText = MatchMetrics.hammingDistance(a.getTweetStrippedText(), b.getTweetStrippedText());
         int lcsLengthStrippedText = MatchMetrics.longestCommonSubstring(a.getTweetStrippedText(), b.getTweetStrippedText());
         MatchMetrics.WordCountDifference wordCountDifference = MatchMetrics.getWordCountDifference(a.getTweetOriginalText(), b.getTweetOriginalText());
-        IsSameWhenRearrangedEnum sameWhenWordsRearranged = MatchMetrics.isSameWhenWordsRearranged(a.getTweetStrippedText(), b.getTweetStrippedText());
+        IsSameWhenRearrangedEnum sameWhenWordsRearranged = MatchMetrics.isSameWhenWordsRearranged(a.getTweetOriginalText(), b.getTweetOriginalText());
         int length = a.getTweetSortedStrippedText().length();
         float inverseLcsLengthToLengthRatio = 1 - ((float) lcsLengthStrippedText / length);
         float editDistanceToLengthRatio = (float)strippedTextEditDistance / length;
