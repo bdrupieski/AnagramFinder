@@ -5,7 +5,9 @@ import anagramutils.processing.MatchMetrics;
 public class WordCountDifferenceTests {
 
     private static void wc(String a, String b, int countDiff, int totalWords) {
-        MatchMetrics.WordCountDifference wordCountDifference = MatchMetrics.getWordCountDifference(a, b);
+        String[] aWords = MatchMetrics.tokenizeTweetText(a);
+        String[] bWords = MatchMetrics.tokenizeTweetText(b);
+        MatchMetrics.WordCountDifference wordCountDifference = MatchMetrics.getWordCountDifference(aWords, bWords);
         Assert.assertEquals(countDiff, wordCountDifference.getWordCountDifference());
         Assert.assertEquals(totalWords, wordCountDifference.getTotalWords());
     }

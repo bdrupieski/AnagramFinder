@@ -119,20 +119,19 @@ public class MatchMetrics {
         return maxLength;
     }
 
-    private static String[] tokenizeTweetText(String originalText) {
+    public static String[] tokenizeTweetText(String originalText) {
         String formatted = originalText.toLowerCase().replaceAll("'", "").replaceAll("[^a-z0-9 ]+", " ");
         return formatted.trim().split("\\s+");
     }
 
-    private static Map<String, Integer> getWordCount(String originalText) {
-        String[] words = tokenizeTweetText(originalText);
+    private static Map<String, Integer> getWordCount(String[] words) {
         return Arrays.stream(words).collect(Collectors.groupingBy(Function.identity(), Collectors.summingInt(x -> 1)));
     }
 
-    public static WordCountDifference getWordCountDifference(String a, String b) {
+    public static WordCountDifference getWordCountDifference(String[] tweet1Words, String[] tweet2Words) {
 
-        Map<String, Integer> tweet1Counts = getWordCount(a);
-        Map<String, Integer> tweet2Counts = getWordCount(b);
+        Map<String, Integer> tweet1Counts = getWordCount(tweet1Words);
+        Map<String, Integer> tweet2Counts = getWordCount(tweet2Words);
 
         Set<String> allWords = new HashSet<>(tweet1Counts.keySet());
         allWords.addAll(tweet2Counts.keySet());
@@ -196,26 +195,22 @@ public class MatchMetrics {
         arr[bIndex] = temp;
     }
 
-    public static IsSameWhenRearrangedEnum isSameWhenWordsRearranged(String a, String b) {
-
-        String[] s1Words = tokenizeTweetText(a);
-        String[] s2Words = tokenizeTweetText(b);
-
+    public static IsSameWhenRearrangedEnum isSameWhenWordsRearranged(String[] tweet1Words, String[] tweet2Words) {
         // all permutations of 6 elements is 720 items.
         // 7 elements is 5,040. That's too much.
-        if (s1Words.length >= 7 || s2Words.length >= 7) {
+        if (tweet1Words.length >= 7 || tweet2Words.length >= 7) {
             return IsSameWhenRearrangedEnum.TOO_LONG_TO_COMPUTE;
         } else {
-            Set<String> s1Permutations = permutations(s1Words);
-            Set<String> s2Permutations = permutations(s2Words);
+            Set<String> tweet1Permutations = permutations(tweet1Words);
+            Set<String> tweet2Permutations = permutations(tweet2Words);
 
-            int s1PermCount = s1Permutations.size();
-            int s2PermCount = s2Permutations.size();
+            int s1PermCount = tweet1Permutations.size();
+            int s2PermCount = tweet2Permutations.size();
             int totalPermutationsIfNoOverlap = s1PermCount + s2PermCount;
 
-            s1Permutations.addAll(s2Permutations);
+            tweet1Permutations.addAll(tweet2Permutations);
 
-            if (s1Permutations.size() != totalPermutationsIfNoOverlap) {
+            if (tweet1Permutations.size() != totalPermutationsIfNoOverlap) {
                 return IsSameWhenRearrangedEnum.TRUE;
             } else {
                 return IsSameWhenRearrangedEnum.FALSE;
@@ -223,9 +218,7 @@ public class MatchMetrics {
         }
     }
 
-    public static int numberOfEnglishWords(String a) {
-        String[] words = tokenizeTweetText(a);
-
+    public static int numberOfEnglishWords(String[] words) {
         int count = 0;
 
         for (String word : words) {

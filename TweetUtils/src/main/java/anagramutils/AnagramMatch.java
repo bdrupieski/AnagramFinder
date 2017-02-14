@@ -47,18 +47,22 @@ public class AnagramMatch {
     }
 
     public static AnagramMatch fromTweetPair(Tweet a, Tweet b) {
+
+        String[] tweet1Words = MatchMetrics.tokenizeTweetText(a.getTweetOriginalText());
+        String[] tweet2Words = MatchMetrics.tokenizeTweetText(b.getTweetOriginalText());
+
         int originalTextEditDistance = MatchMetrics.demerauLevenshteinDistance(a.getTweetOriginalText(), b.getTweetOriginalText());
         int strippedTextEditDistance = MatchMetrics.demerauLevenshteinDistance(a.getTweetStrippedText(), b.getTweetStrippedText());
         int hammingDistanceStrippedText = MatchMetrics.hammingDistance(a.getTweetStrippedText(), b.getTweetStrippedText());
         int lcsLengthStrippedText = MatchMetrics.longestCommonSubstring(a.getTweetStrippedText(), b.getTweetStrippedText());
-        MatchMetrics.WordCountDifference wordCountDifference = MatchMetrics.getWordCountDifference(a.getTweetOriginalText(), b.getTweetOriginalText());
-        IsSameWhenRearrangedEnum sameWhenWordsRearranged = MatchMetrics.isSameWhenWordsRearranged(a.getTweetOriginalText(), b.getTweetOriginalText());
+        MatchMetrics.WordCountDifference wordCountDifference = MatchMetrics.getWordCountDifference(tweet1Words, tweet2Words);
+        IsSameWhenRearrangedEnum sameWhenWordsRearranged = MatchMetrics.isSameWhenWordsRearranged(tweet1Words, tweet2Words);
         int length = a.getTweetSortedStrippedText().length();
         float inverseLcsLengthToLengthRatio = 1 - ((float) lcsLengthStrippedText / length);
         float editDistanceToLengthRatio = (float)strippedTextEditDistance / length;
         float diffWordCountToTotalWordCountRatio = (float)wordCountDifference.getWordCountDifference() / wordCountDifference.getTotalWords();
-        int englishWordsInTweetA = MatchMetrics.numberOfEnglishWords(a.getTweetOriginalText());
-        int englishWordsInTweetB = MatchMetrics.numberOfEnglishWords(b.getTweetOriginalText());
+        int englishWordsInTweetA = MatchMetrics.numberOfEnglishWords(tweet1Words);
+        int englishWordsInTweetB = MatchMetrics.numberOfEnglishWords(tweet2Words);
         float englishWordsToTotalWordCountRatio = (float)(englishWordsInTweetA + englishWordsInTweetB) / wordCountDifference.getTotalWords();
         float totalLengthRatio = MatchMetrics.totalLengthRatio(a.getTweetStrippedText().length());
         float interestingFactor =

@@ -6,7 +6,9 @@ import anagramutils.processing.MatchMetrics;
 public class IsMatchWhenWordsRearrangedTests {
 
     private static void isMatch(String a, String b, IsSameWhenRearrangedEnum isSame) {
-        Assert.assertEquals(isSame, MatchMetrics.isSameWhenWordsRearranged(a, b));
+        String[] aWords = MatchMetrics.tokenizeTweetText(a);
+        String[] bWords = MatchMetrics.tokenizeTweetText(b);
+        Assert.assertEquals(isSame, MatchMetrics.isSameWhenWordsRearranged(aWords, bWords));
     }
 
     @Test
