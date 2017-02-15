@@ -1,5 +1,6 @@
 from anagram_match import get_matches_from_csv
 from sklearn import tree
+from sklearn.ensemble import RandomForestClassifier, ExtraTreesClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix, classification_report, matthews_corrcoef
 from confusion_matrix_util import plot_confusion_matrix
@@ -23,10 +24,21 @@ def build_training_and_test_data():
 
 
 def predict_posted_decision_tree():
+    predict(tree.DecisionTreeClassifier())
+
+
+def predict_posted_random_decision_trees():
+    predict(RandomForestClassifier(n_estimators=15, max_depth=None, min_samples_split=2, random_state=0))
+
+
+def predict_posted_extra_trees():
+    predict(ExtraTreesClassifier(n_estimators=20, max_depth=None, min_samples_split=2, random_state=0))
+
+
+def predict(clf):
     X, Y = build_training_and_test_data()
     X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.20, random_state=42)
 
-    clf = tree.DecisionTreeClassifier()
     clf.fit(X_train, y_train)
 
     y_true, y_pred = y_test, clf.predict(X_test)
@@ -38,4 +50,4 @@ def predict_posted_decision_tree():
 
 
 if __name__ == "__main__":
-    predict_posted_decision_tree()
+    predict_posted_random_decision_trees()
