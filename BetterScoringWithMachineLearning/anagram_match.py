@@ -31,10 +31,10 @@ class AnagramMatch:
         self.tweet1_retweet_id = anagram_match_row[23]  # type: str
         self.tweet2_retweet_id = anagram_match_row[24]  # type: str
         self.tumblr_post_id = anagram_match_row[25]  # type: str
+        self.unretweeted_manually = bool(anagram_match_row[26] == "True")  # type: bool
 
         self.posted = self.attempted_approval is True and \
-            self.date_retweeted is not '' and \
-            self.date_unretweeted is ''  # type: bool
+            self.unretweeted_manually is False  # type: bool
 
     def __repr__(self, *args, **kwargs):
         return "[(" + self.t1_original_text + "), (" + self.t2_original_text + ")]"

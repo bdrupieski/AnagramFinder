@@ -31,7 +31,8 @@ SELECT
   anagram_matches.date_rejected,
   anagram_matches.tweet1_retweet_id,
   anagram_matches.tweet2_retweet_id,
-  anagram_matches.tumblr_post_id
+  anagram_matches.tumblr_post_id,
+  anagram_matches.unretweeted_manually
 FROM anagram_matches
   INNER JOIN tweets t1 ON t1.id = anagram_matches.tweet1_id
   INNER JOIN tweets t2 ON t2.id = anagram_matches.tweet2_id
@@ -71,6 +72,7 @@ headers = [
     "tweet1_retweet_id",
     "tweet2_retweet_id",
     "tumblr_post_id",
+    "unretweeted_manually",
 ]
 
 with open('anagram_matches.csv', 'w', encoding='utf-8', newline='') as csvFile:
