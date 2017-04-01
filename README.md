@@ -1,13 +1,8 @@
-This project finds anagrams on Twitter. It consists of two Java applications.
+This project finds anagrams on Twitter.
 
-**TweetStream** connects to the Twitter firehose and 
-publishes tweets on a local TCP socket using ZeroMQ.
-
-**AnagramListener** listens to the tweets published by TweetStream and
-saves them to a PostgreSQL database. For each new incoming tweet
-AnagramListener searches the database for other tweets that would
-form an anagram with the incoming tweet. If it finds an match,
-it scores the match and saves it if it meets a score threshold.
+It uses Twitter4J to stream tweets from Twitter. If tweets meet some basic filters
+they're saved to a Postgres database and checked to see if they form an anagram
+with any previously encountered tweets.
 
 If you're interested in learning more about how this is done or the
 scoring methodology used to rank anagrams I wrote 
