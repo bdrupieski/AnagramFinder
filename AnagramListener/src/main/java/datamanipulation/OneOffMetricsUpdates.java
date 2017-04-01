@@ -1,3 +1,5 @@
+package datamanipulation;
+
 import anagramutils.AnagramMatch;
 import anagramutils.Tweet;
 import anagramutils.processing.ProcessedTweetText;
@@ -12,10 +14,10 @@ import org.skife.jdbi.v2.Update;
 import java.util.List;
 import java.util.Map;
 
-public class OneOffDataManipulation {
+public class OneOffMetricsUpdates {
 
     public static void main(String[] args)  {
-        updateInterestingFactor();
+
     }
 
     private static List<Map<String, Object>> getAllMatches(Handle handle) {
