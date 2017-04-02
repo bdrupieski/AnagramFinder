@@ -13,12 +13,16 @@ public class AnagramListenerDriver {
     private final static Logger logger = LoggerFactory.getLogger(AnagramListenerDriver.class);
 
     private final TwitterStream twitterStream;
-    private final DBI dbi;
+    private final AnagramMatchingStatusListener anagramMatchingStatusListener;
     private final ProcessedTweetCountLogger processedTweetCountLogger;
 
-    private AnagramListenerDriver(TwitterStream twitterStream, DBI dbi, ProcessedTweetCountLogger processedTweetCountLogger) {
+    private AnagramListenerDriver(
+            TwitterStream twitterStream,
+            AnagramMatchingStatusListener anagramMatchingStatusListener,
+            ProcessedTweetCountLogger processedTweetCountLogger) {
+
+        this.anagramMatchingStatusListener = anagramMatchingStatusListener;
         this.twitterStream = twitterStream;
-        this.dbi = dbi;
         this.processedTweetCountLogger = processedTweetCountLogger;
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
@@ -39,12 +43,10 @@ public class AnagramListenerDriver {
     }
 
     private void run() {
-        AnagramMatchingStatusListener publishFilteredStatusListener = new AnagramMatchingStatusListener(dbi, processedTweetCountLogger);
-
-        twitterStream.addListener(publishFilteredStatusListener);
+        twitterStream.addListener(anagramMatchingStatusListener);
         twitterStream.sample("en");
 
-        while (!Thread.currentThread().isInterrupted()){
+        while (!Thread.currentThread().isInterrupted()) {
             try {
                 Thread.sleep(200);
             } catch (InterruptedException e) {
@@ -61,8 +63,9 @@ public class AnagramListenerDriver {
         TwitterStream twitterStream = ConfigurationProvider.buildTwitterStream(twitterApiConfiguration, applicationConfiguration);
         DBI dbi = ConfigurationProvider.configureDatabase(applicationConfiguration);
         ProcessedTweetCountLogger processedTweetCountLogger = new ProcessedTweetCountLogger(dbi, applicationConfiguration);
+        AnagramMatchingStatusListener publishFilteredStatusListener = new AnagramMatchingStatusListener(dbi, processedTweetCountLogger);
 
-        AnagramListenerDriver anagramListenerDriver = new AnagramListenerDriver(twitterStream, dbi, processedTweetCountLogger);
+        AnagramListenerDriver anagramListenerDriver = new AnagramListenerDriver(twitterStream, publishFilteredStatusListener, processedTweetCountLogger);
         anagramListenerDriver.run();
     }
 }
