@@ -23,11 +23,13 @@ public class AnagramListenerDriver {
     private long processedCountThreshold;
 
     private AnagramListenerDriver() {
-        twitterStream = new TwitterStreamFactory(buildTwitterConfig()).getInstance();
+        Config applicationConfig = getApplicationConfig();
+        processedCountThreshold = applicationConfig.getLong("processedCountThreshold");
+        int numberOfAsyncThreads = applicationConfig.getInt("numberOfAsyncThreads");
 
-        Config appConfig = getApplicationConfig();
-        processedCountThreshold = appConfig.getLong("processedCountThreshold");
-        dbi = configureDatabase(appConfig);
+        dbi = configureDatabase(applicationConfig);
+        Configuration twitterConfiguration = buildTwitterConfig(numberOfAsyncThreads);
+        twitterStream = new TwitterStreamFactory(twitterConfiguration).getInstance();
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             logger.info("interrupt received, shutting down producer...");
@@ -35,14 +37,14 @@ public class AnagramListenerDriver {
         }));
     }
 
-    private Configuration buildTwitterConfig() {
+    private Configuration buildTwitterConfig(int numberOfAsyncThreads) {
         Config twitterConfig = getTwitterConfig();
         return new ConfigurationBuilder()
                 .setOAuthConsumerKey(twitterConfig.getString("twitter.consumerkey"))
                 .setOAuthConsumerSecret(twitterConfig.getString("twitter.consumersecret"))
                 .setOAuthAccessToken(twitterConfig.getString("twitter.accesstoken"))
                 .setOAuthAccessTokenSecret(twitterConfig.getString("twitter.accesstokensecret"))
-                .setAsyncNumThreads(1)
+                .setAsyncNumThreads(numberOfAsyncThreads)
                 .build();
     }
 
@@ -69,11 +71,11 @@ public class AnagramListenerDriver {
         return applicationConfig;
     }
 
-    private DBI configureDatabase(Config appConfig) {
+    private DBI configureDatabase(Config applicationConfig) {
         HikariConfig hikariConfig = new HikariConfig();
-        hikariConfig.setJdbcUrl(appConfig.getString("database.url"));
-        hikariConfig.setUsername(appConfig.getString("database.user"));
-        hikariConfig.setPassword(appConfig.getString("database.password"));
+        hikariConfig.setJdbcUrl(applicationConfig.getString("database.url"));
+        hikariConfig.setUsername(applicationConfig.getString("database.user"));
+        hikariConfig.setPassword(applicationConfig.getString("database.password"));
         HikariDataSource hikariDataSource = new HikariDataSource(hikariConfig);
 
         return new DBI(hikariDataSource);

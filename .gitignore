@@ -1,9 +1,7 @@
-.idea/*
+.idea/
 /out/
 *.iml
 */target
 *.log
 
 twitterapi.conf
-.idea/
-BetterScoringWithMachineLearning/__pycache__/
