@@ -11,7 +11,7 @@ class Util {
     static Tweet tweetFromText(String text) {
         ProcessedTweetText processedTweetText = Tweet.processTweetText(text);
         return new Tweet(UUID.randomUUID(), 1, new Timestamp(1), text,
-                processedTweetText.getSortedStrippedText(), 1L, "");
+                processedTweetText.getSortedStrippedText(), 1L, "", false);
     }
 
 }

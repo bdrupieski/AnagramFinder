@@ -63,19 +63,22 @@ public class CandidateStatusProcessor implements Runnable {
     private void saveTweetAndCheckIfItAnagramsWithAnyPreviouslySavedTweets(Tweet tweet) {
         logger.debug("processing {}", tweet.getTweetSortedStrippedText());
 
-
         TweetDao tweetDao = dbi.onDemand(TweetDao.class);
-        List<Tweet> candidateMatches = tweetDao.findCandidateMatches(tweet);
+        List<Tweet> candidateMatches = tweetDao.findCandidateMatches(tweet.getTweetSortedStrippedText());
 
         List<Tweet> existingDuplicates = candidateMatches
                 .stream()
+                .filter(x -> !x.getIsInRetweetedMatch())
                 .filter(x -> x.getTweetStrippedText().equalsIgnoreCase(tweet.getTweetStrippedText()))
                 .collect(Collectors.toList());
 
         if (existingDuplicates.size() > 0) {
 
-            String duplicateTweetOrigText = existingDuplicates.stream().map(Tweet::getTweetOriginalText).collect(Collectors.joining(", "));
-            logger.debug("DUPLICATE: {} AND [{}]", tweet.getTweetOriginalText(), duplicateTweetOrigText);
+            String duplicateTweetsOriginalText = existingDuplicates
+                    .stream()
+                    .map(x -> String.format("%s (%s)", x.getTweetOriginalText(), x.getId()))
+                    .collect(Collectors.joining(", "));
+            logger.debug("DUPLICATE: {} AND [{}]", tweet.getTweetOriginalText(), duplicateTweetsOriginalText);
 
         } else {
 

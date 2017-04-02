@@ -18,8 +18,9 @@ public class Tweet {
     private String tweetSortedStrippedText;
     private Long userId;
     private String userName;
+    private boolean isInRetweetedMatch;
 
-    public Tweet(UUID id, long statusId, Timestamp createdAt, String tweetOriginalText, String tweetStrippedText, String tweetSortedStrippedText, Long userId, String userName) {
+    public Tweet(UUID id, long statusId, Timestamp createdAt, String tweetOriginalText, String tweetStrippedText, String tweetSortedStrippedText, Long userId, String userName, boolean isInRetweetedMatch) {
         this.id = id;
         this.statusId = statusId;
         this.createdAt = createdAt;
@@ -28,10 +29,11 @@ public class Tweet {
         this.tweetSortedStrippedText = tweetSortedStrippedText;
         this.userId = userId;
         this.userName = userName;
+        this.isInRetweetedMatch = isInRetweetedMatch;
     }
 
-    public Tweet(UUID id, long statusId, Timestamp createdAt, String tweetOriginalText, String tweetSortedStrippedText, Long userId, String userName) {
-        this(id, statusId, createdAt, tweetOriginalText, stripText(tweetOriginalText), tweetSortedStrippedText, userId, userName);
+    public Tweet(UUID id, long statusId, Timestamp createdAt, String tweetOriginalText, String tweetSortedStrippedText, Long userId, String userName, boolean isInRetweetedMatch) {
+        this(id, statusId, createdAt, tweetOriginalText, stripText(tweetOriginalText), tweetSortedStrippedText, userId, userName, isInRetweetedMatch);
     }
 
     private static String stripText(String originalText) {
@@ -54,7 +56,7 @@ public class Tweet {
         return new Tweet(UUID.randomUUID(), status.getId(), new java.sql.Timestamp(status.getCreatedAt().getTime()),
                 processedTweetText.getOriginalText(), processedTweetText.getStrippedText(),
                 processedTweetText.getSortedStrippedText(), status.getUser().getId(),
-                status.getUser().getScreenName());
+                status.getUser().getScreenName(), false);
     }
 
     public UUID getId() {
@@ -89,6 +91,10 @@ public class Tweet {
         return userName;
     }
 
+    public boolean getIsInRetweetedMatch() {
+        return isInRetweetedMatch;
+    }
+
     @Override
     public String toString() {
         return "Tweet{" +
@@ -100,6 +106,7 @@ public class Tweet {
                 ", tweetSortedStrippedText='" + tweetSortedStrippedText + '\'' +
                 ", userId=" + userId +
                 ", userName='" + userName + '\'' +
+                ", isInRetweetedMatch=" + isInRetweetedMatch +
                 '}';
     }
 }

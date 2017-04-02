@@ -153,7 +153,7 @@ public class OneOffMetricsUpdates {
         return new Tweet(null, 0, null,
                 originalText, processedTweetText.getStrippedText(),
                 processedTweetText.getSortedStrippedText(), 0L,
-                null);
+                null, false);
     }
 
     private static DBI buildDbi() {

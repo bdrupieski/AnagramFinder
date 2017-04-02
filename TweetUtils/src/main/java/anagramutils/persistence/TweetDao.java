@@ -1,5 +1,6 @@
 package anagramutils.persistence;
 
+import org.skife.jdbi.v2.sqlobject.Bind;
 import org.skife.jdbi.v2.sqlobject.BindBean;
 import org.skife.jdbi.v2.sqlobject.SqlQuery;
 import org.skife.jdbi.v2.sqlobject.SqlUpdate;
@@ -32,8 +33,17 @@ public interface TweetDao {
             ")")
     void insert(@BindBean Tweet tweet);
 
-    @SqlQuery("select * from tweets where stripped_sorted_text = :tweetSortedStrippedText")
-    List<Tweet> findCandidateMatches(@BindBean Tweet tweet);
+    @SqlQuery("SELECT " +
+            "  tweets.*, " +
+            "  (id IN (SELECT tweet1_id " +
+            "          FROM anagram_matches " +
+            "          WHERE anagram_matches.date_retweeted IS NOT NULL) " +
+            "   OR id IN (SELECT tweet2_id " +
+            "             FROM anagram_matches " +
+            "             WHERE anagram_matches.date_retweeted IS NOT NULL)) AS is_in_retweeted_match " +
+            "FROM tweets " +
+            "WHERE stripped_sorted_text = :tweetSortedStrippedText")
+    List<Tweet> findCandidateMatches(@Bind("tweetSortedStrippedText") String tweetSortedStrippedText);
 
     void close();
 }
