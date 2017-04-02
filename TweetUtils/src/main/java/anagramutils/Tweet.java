@@ -19,9 +19,6 @@ public class Tweet {
     private Long userId;
     private String userName;
 
-    private Tweet() {
-    }
-
     public Tweet(UUID id, long statusId, Timestamp createdAt, String tweetOriginalText, String tweetStrippedText, String tweetSortedStrippedText, Long userId, String userName) {
         this.id = id;
         this.statusId = statusId;
@@ -55,7 +52,7 @@ public class Tweet {
         ProcessedTweetText processedTweetText = processTweetText(status.getText());
 
         return new Tweet(UUID.randomUUID(), status.getId(), new java.sql.Timestamp(status.getCreatedAt().getTime()),
-                status.getText(), processedTweetText.getStrippedText(),
+                processedTweetText.getOriginalText(), processedTweetText.getStrippedText(),
                 processedTweetText.getSortedStrippedText(), status.getUser().getId(),
                 status.getUser().getScreenName());
     }

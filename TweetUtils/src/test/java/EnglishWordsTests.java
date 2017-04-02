@@ -2,8 +2,6 @@ import anagramutils.processing.MatchMetrics;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.io.IOException;
-
 public class EnglishWordsTests {
 
     private static int NumberOfEnglishWords(String sentence) {

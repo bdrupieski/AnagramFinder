@@ -1,7 +1,6 @@
 package anagramutils;
 
 import anagramutils.processing.MatchMetrics;
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
 
 import java.util.UUID;
 
@@ -23,9 +22,6 @@ public class AnagramMatch {
     private float totalLengthToHighestLengthCapturedRatio;
     private IsSameWhenRearrangedEnum isSameRearranged;
     private float interestingFactor;
-
-    private AnagramMatch() {
-    }
 
     public AnagramMatch(int id, UUID tweet1Id, UUID tweet2Id, int editDistanceOriginalText, int editDistanceStrippedText, int hammingDistanceStrippedText, int longestCommonSubstringLengthStrippedText, int wordCountDifference, int totalUniqueWords, float lcsLengthToTotalLengthRatio, float editDistanceToLengthRatio, float differentWordCountToTotalWordCount, float englishWordsToTotalWordCount, float totalLengthToHighestLengthCapturedRatio, IsSameWhenRearrangedEnum isSameRearranged, float interestingFactor) {
         this.id = id;

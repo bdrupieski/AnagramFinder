@@ -1,7 +1,6 @@
 package anagramutils.processing;
 
 import anagramutils.IsSameWhenRearrangedEnum;
-import anagramutils.Tweet;
 import anagramutils.filters.TweetFilter;
 
 import java.io.*;

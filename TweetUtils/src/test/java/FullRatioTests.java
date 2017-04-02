@@ -2,10 +2,6 @@ import junit.framework.Assert;
 import org.junit.Test;
 import anagramutils.AnagramMatch;
 import anagramutils.Tweet;
-import anagramutils.processing.ProcessedTweetText;
-
-import java.sql.Timestamp;
-import java.util.UUID;
 
 public class FullRatioTests {
 
