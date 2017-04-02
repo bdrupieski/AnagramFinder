@@ -50,7 +50,7 @@ class ProcessedTweetCountLogger {
         long count = tweetMetFilterCount.incrementAndGet();
         tweetMetFilterCountSincePreviousReset.incrementAndGet();
 
-        reportProgress(count);
+        automaticallyLogProgress(count);
     }
 
     void incrementSavedTweets() {
@@ -63,65 +63,73 @@ class ProcessedTweetCountLogger {
         savedAnagramCountSincePreviousReset.addAndGet(num);
     }
 
-    private void reportProgress(long tweetsMetFilterCount) {
-        if (tweetsMetFilterCount % processedCountThreshold == 0) {
-            Instant now = Instant.now();
-            Duration timeSincePreviousReset = Duration.between(previousReset, now);
+    private boolean isItTimeToAutomaticallyLogProgress(long tweetsMetFilterCount) {
+        return (tweetsMetFilterCount % processedCountThreshold) == 0;
+    }
 
-            double fractionOfASecond = (double) timeSincePreviousReset.getNano() / 1_000_000_000;
-            double secondsSincePreviousReset = timeSincePreviousReset.getSeconds() + fractionOfASecond;
-            double hoursSincePreviousReset = secondsSincePreviousReset / 3600;
-
-            long statusesReceived = receivedStatusCountSincePreviousReset.getAndSet(0);
-            long statusesMetFilter = statusMetFilterCountSincePreviousReset.getAndSet(0);
-            long tweetsMetFilter = tweetMetFilterCountSincePreviousReset.getAndSet(0);
-            long savedTweets = savedTweetCountSincePreviousReset.getAndSet(0);
-            long savedAnagrams = savedAnagramCountSincePreviousReset.getAndSet(0);
-
-            ProcessedCountsDao processedCountsDao = dbi.onDemand(ProcessedCountsDao.class);
-            ProcessedCounts processedCounts = new ProcessedCounts(now, previousReset,
-                    secondsSincePreviousReset,
-                    statusesReceived,
-                    statusesMetFilter,
-                    tweetsMetFilter,
-                    savedTweets,
-                    savedAnagrams);
-            processedCountsDao.insert(processedCounts);
-
-            double statusesReceivedPerSecond = statusesReceived / secondsSincePreviousReset;
-            double statusesMetFilterPerSecond = statusesMetFilter / secondsSincePreviousReset;
-            double tweetsMetFilterPerSecond = tweetsMetFilter / secondsSincePreviousReset;
-            double tweetsSavedPerSecond = savedTweets / secondsSincePreviousReset;
-            double anagramsCreatedPerHour = savedAnagrams / hoursSincePreviousReset;
-
-            previousReset = now;
-
-            logger.info("Another {} tweets met filter.", processedCountThreshold);
-            logger.info("In the previous {}:", formatDuration(timeSincePreviousReset));
-
-            logger.info("   {} statuses/second received ({} seconds/status)",
-                    String.format("%.2f", statusesReceivedPerSecond),
-                    String.format("%.2f", 1 / statusesReceivedPerSecond));
-            logger.info("   {} statuses/second met filter ({} seconds/status)",
-                    String.format("%.2f", statusesMetFilterPerSecond),
-                    String.format("%.2f", 1 / statusesMetFilterPerSecond));
-            logger.info("   {} tweets/second met filter ({} seconds/tweet)",
-                    String.format("%.2f", tweetsMetFilterPerSecond),
-                    String.format("%.2f", 1 / tweetsMetFilterPerSecond));
-            logger.info("   {} tweets/second saved (non-duplicates) ({} seconds/tweet)",
-                    String.format("%.2f", tweetsSavedPerSecond),
-                    String.format("%.2f", 1 / tweetsSavedPerSecond));
-            logger.info("   {} anagrams/hour created ({} hours/anagram)",
-                    String.format("%.2f", anagramsCreatedPerHour),
-                    String.format("%.2f", 1 / anagramsCreatedPerHour));
-
-            logger.info("Current totals:");
-            logger.info("   {} total statuses received.", receivedStatusCount.get());
-            logger.info("   {} total statuses met filter.", statusMetFilterCount.get());
-            logger.info("   {} total tweets met filter.", tweetMetFilterCount.get());
-            logger.info("   {} total tweets saved.", savedTweetCount.get());
-            logger.info("   {} total anagrams created.", savedAnagramCount.get());
+    private void automaticallyLogProgress(long tweetsMetFilterCount) {
+        if (isItTimeToAutomaticallyLogProgress(tweetsMetFilterCount)) {
+            logProcessedCounts();
         }
+    }
+
+    void logProcessedCounts() {
+        Instant now = Instant.now();
+        Duration timeSincePreviousReset = Duration.between(previousReset, now);
+
+        double fractionOfASecond = (double) timeSincePreviousReset.getNano() / 1_000_000_000;
+        double secondsSincePreviousReset = timeSincePreviousReset.getSeconds() + fractionOfASecond;
+        double hoursSincePreviousReset = secondsSincePreviousReset / 3600;
+
+        long statusesReceived = receivedStatusCountSincePreviousReset.getAndSet(0);
+        long statusesMetFilter = statusMetFilterCountSincePreviousReset.getAndSet(0);
+        long tweetsMetFilter = tweetMetFilterCountSincePreviousReset.getAndSet(0);
+        long savedTweets = savedTweetCountSincePreviousReset.getAndSet(0);
+        long savedAnagrams = savedAnagramCountSincePreviousReset.getAndSet(0);
+
+        ProcessedCountsDao processedCountsDao = dbi.onDemand(ProcessedCountsDao.class);
+        ProcessedCounts processedCounts = new ProcessedCounts(now, previousReset,
+                secondsSincePreviousReset,
+                statusesReceived,
+                statusesMetFilter,
+                tweetsMetFilter,
+                savedTweets,
+                savedAnagrams);
+        processedCountsDao.insert(processedCounts);
+
+        double statusesReceivedPerSecond = statusesReceived / secondsSincePreviousReset;
+        double statusesMetFilterPerSecond = statusesMetFilter / secondsSincePreviousReset;
+        double tweetsMetFilterPerSecond = tweetsMetFilter / secondsSincePreviousReset;
+        double tweetsSavedPerSecond = savedTweets / secondsSincePreviousReset;
+        double anagramsCreatedPerHour = savedAnagrams / hoursSincePreviousReset;
+
+        previousReset = now;
+
+        logger.info("{} tweets met filter since previous reset.", tweetsMetFilter);
+        logger.info("In the previous {}:", formatDuration(timeSincePreviousReset));
+
+        logger.info("   {} statuses/second received ({} seconds/status)",
+                String.format("%.2f", statusesReceivedPerSecond),
+                String.format("%.2f", 1 / statusesReceivedPerSecond));
+        logger.info("   {} statuses/second met filter ({} seconds/status)",
+                String.format("%.2f", statusesMetFilterPerSecond),
+                String.format("%.2f", 1 / statusesMetFilterPerSecond));
+        logger.info("   {} tweets/second met filter ({} seconds/tweet)",
+                String.format("%.2f", tweetsMetFilterPerSecond),
+                String.format("%.2f", 1 / tweetsMetFilterPerSecond));
+        logger.info("   {} tweets/second saved (non-duplicates) ({} seconds/tweet)",
+                String.format("%.2f", tweetsSavedPerSecond),
+                String.format("%.2f", 1 / tweetsSavedPerSecond));
+        logger.info("   {} anagrams/hour created ({} hours/anagram)",
+                String.format("%.2f", anagramsCreatedPerHour),
+                String.format("%.2f", 1 / anagramsCreatedPerHour));
+
+        logger.info("Current totals:");
+        logger.info("   {} total statuses received.", receivedStatusCount.get());
+        logger.info("   {} total statuses met filter.", statusMetFilterCount.get());
+        logger.info("   {} total tweets met filter.", tweetMetFilterCount.get());
+        logger.info("   {} total tweets saved.", savedTweetCount.get());
+        logger.info("   {} total anagrams created.", savedAnagramCount.get());
     }
 
     private String formatDuration(Duration durationSincePreviousReset) {

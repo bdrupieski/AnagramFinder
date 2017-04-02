@@ -14,16 +14,18 @@ public class AnagramListenerDriver {
 
     private TwitterStream twitterStream;
     private DBI dbi;
-    private long processedCountThreshold;
+    private ProcessedTweetCountLogger processedTweetCountLogger;
 
     private AnagramListenerDriver() {
         Config applicationConfig = ConfigurationProvider.getApplicationConfig();
-        processedCountThreshold = applicationConfig.getLong("processedCountThreshold");
+        long processedCountThreshold = applicationConfig.getLong("processedCountThreshold");
         int numberOfAsyncThreads = applicationConfig.getInt("numberOfAsyncThreads");
 
         dbi = ConfigurationProvider.configureDatabase(applicationConfig);
         Configuration twitterConfiguration = ConfigurationProvider.buildTwitterConfig(numberOfAsyncThreads);
         twitterStream = new TwitterStreamFactory(twitterConfiguration).getInstance();
+
+        processedTweetCountLogger = new ProcessedTweetCountLogger(dbi, processedCountThreshold);
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             logger.info("interrupt received, shutting down producer...");
@@ -32,14 +34,17 @@ public class AnagramListenerDriver {
     }
 
     private void cleanUp() {
-        logger.info("cleaning up.");
+        logger.info("shutting down twitter stream.");
         twitterStream.cleanUp();
         twitterStream.shutdown();
-        logger.info("finished cleaning up.");
+        logger.info("finished shutting down twitter stream.");
+
+        logger.info("logging processed counts.");
+        processedTweetCountLogger.logProcessedCounts();
+        logger.info("finished logging processed counts.");
     }
 
     private void run() {
-        ProcessedTweetCountLogger processedTweetCountLogger = new ProcessedTweetCountLogger(dbi, processedCountThreshold);
         AnagramMatchingStatusListener publishFilteredStatusListener = new AnagramMatchingStatusListener(dbi, processedTweetCountLogger);
 
         twitterStream.addListener(publishFilteredStatusListener);
