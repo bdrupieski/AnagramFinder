@@ -1,9 +1,9 @@
 package datamanipulation;
 
-import anagramlistener.configuration.ApplicationConfiguration;
-import anagramlistener.configuration.ConfigurationProvider;
-import anagramutils.models.AnagramMatch;
-import anagramutils.models.Tweet;
+import configuration.ApplicationConfiguration;
+import configuration.ConfigurationProvider;
+import models.AnagramMatch;
+import models.Tweet;
 import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.Handle;
 import org.skife.jdbi.v2.Update;

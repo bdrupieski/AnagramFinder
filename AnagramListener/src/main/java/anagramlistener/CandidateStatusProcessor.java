@@ -1,15 +1,15 @@
 package anagramlistener;
 
-import anagramutils.textprocessing.StatusFilter;
-import anagramutils.textprocessing.TweetFilter;
-import anagramutils.persistence.AnagramMatchDao;
-import anagramutils.persistence.TweetDao;
+import models.AnagramMatch;
+import models.Tweet;
 import org.skife.jdbi.v2.DBI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import anagramutils.models.AnagramMatch;
-import anagramutils.models.Tweet;
-import anagramutils.textprocessing.AnagramMatchFilter;
+import persistence.AnagramMatchDao;
+import persistence.TweetDao;
+import textprocessing.AnagramMatchFilter;
+import textprocessing.StatusFilter;
+import textprocessing.TweetFilter;
 import twitter4j.Status;
 
 import java.util.List;

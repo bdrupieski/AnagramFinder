@@ -1,8 +1,8 @@
 package anagramlistener;
 
-import anagramlistener.configuration.ApplicationConfiguration;
-import anagramlistener.configuration.ConfigurationProvider;
-import anagramlistener.configuration.TwitterApiConfiguration;
+import configuration.ApplicationConfiguration;
+import configuration.ConfigurationProvider;
+import configuration.TwitterApiConfiguration;
 import org.skife.jdbi.v2.DBI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

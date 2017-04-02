@@ -1,11 +1,11 @@
 package anagramlistener;
 
-import anagramlistener.configuration.ApplicationConfiguration;
-import anagramutils.models.ProcessedCounts;
-import anagramutils.persistence.ProcessedCountsDao;
+import configuration.ApplicationConfiguration;
+import models.ProcessedCounts;
 import org.skife.jdbi.v2.DBI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import persistence.ProcessedCountsDao;
 
 import java.time.Duration;
 import java.time.Instant;

@@ -59,9 +59,9 @@
             <version>1.3.0</version>
         </dependency>
         <dependency>
-            <groupId>tweetutils</groupId>
-            <artifactId>tweetutils</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>org.twitter4j</groupId>
+            <artifactId>twitter4j-stream</artifactId>
+            <version>4.0.4</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
