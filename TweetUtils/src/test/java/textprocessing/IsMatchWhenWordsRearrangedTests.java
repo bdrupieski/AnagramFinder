@@ -1,14 +1,16 @@
+package metricandprocessingtests;
+
 import org.junit.Assert;
 import org.junit.Test;
-import anagramutils.IsSameWhenRearrangedEnum;
-import anagramutils.processing.MatchMetrics;
+import anagramutils.models.IsSameWhenRearrangedEnum;
+import anagramutils.textprocessing.MatchScoringMetrics;
 
 public class IsMatchWhenWordsRearrangedTests {
 
     private static void isMatch(String a, String b, IsSameWhenRearrangedEnum isSame) {
-        String[] aWords = MatchMetrics.tokenizeTweetText(a);
-        String[] bWords = MatchMetrics.tokenizeTweetText(b);
-        Assert.assertEquals(isSame, MatchMetrics.isSameWhenWordsRearranged(aWords, bWords));
+        String[] aWords = MatchScoringMetrics.tokenizeTweetText(a);
+        String[] bWords = MatchScoringMetrics.tokenizeTweetText(b);
+        Assert.assertEquals(isSame, MatchScoringMetrics.isSameWhenWordsRearranged(aWords, bWords));
     }
 
     @Test

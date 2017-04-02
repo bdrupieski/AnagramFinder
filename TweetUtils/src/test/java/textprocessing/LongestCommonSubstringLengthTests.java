@@ -1,11 +1,13 @@
+package metricandprocessingtests;
+
 import org.junit.Assert;
 import org.junit.Test;
-import anagramutils.processing.MatchMetrics;
+import anagramutils.textprocessing.MatchScoringMetrics;
 
 public class LongestCommonSubstringLengthTests {
 
     private static void length(String a, String b, int length) {
-        Assert.assertEquals(length, MatchMetrics.longestCommonSubstring(a, b));
+        Assert.assertEquals(length, MatchScoringMetrics.longestCommonSubstring(a, b));
     }
 
     @Test

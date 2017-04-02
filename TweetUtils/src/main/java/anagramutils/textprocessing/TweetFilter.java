@@ -1,11 +1,11 @@
-package anagramutils.filters;
+package anagramutils.textprocessing;
 
-import anagramutils.Tweet;
+import anagramutils.models.Tweet;
 
 public class TweetFilter {
 
-    public static final int TWEET_MIN_LENGTH_EXCLUSIVE = 8;
-    public static final int TWEET_MAX_LENGTH_INCLUSIVE = 30;
+    static final int TWEET_MIN_LENGTH_EXCLUSIVE = 8;
+    static final int TWEET_MAX_LENGTH_INCLUSIVE = 30;
 
     private TweetFilter() {
     }

@@ -1,4 +1,4 @@
-package anagramutils;
+package anagramutils.models;
 
 public enum IsSameWhenRearrangedEnum {
     TRUE(1), FALSE(0), TOO_LONG_TO_COMPUTE(-1);

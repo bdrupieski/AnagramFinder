@@ -1,6 +1,6 @@
 package anagramutils.persistence;
 
-import anagramutils.ProcessedCounts;
+import anagramutils.models.ProcessedCounts;
 import org.skife.jdbi.v2.sqlobject.BindBean;
 import org.skife.jdbi.v2.sqlobject.SqlUpdate;
 

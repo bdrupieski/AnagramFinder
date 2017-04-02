@@ -2,13 +2,8 @@ package datamanipulation;
 
 import anagramlistener.configuration.ApplicationConfiguration;
 import anagramlistener.configuration.ConfigurationProvider;
-import anagramutils.AnagramMatch;
-import anagramutils.Tweet;
-import anagramutils.processing.ProcessedTweetText;
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
+import anagramutils.models.AnagramMatch;
+import anagramutils.models.Tweet;
 import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.Handle;
 import org.skife.jdbi.v2.Update;
@@ -45,8 +40,8 @@ public class OneOffMetricsUpdates {
             String t1OriginalText = (String)props.get("t1_originalText");
             String t2OriginalText = (String)props.get("t2_originalText");
 
-            Tweet a = tweetFromText(t1OriginalText);
-            Tweet b = tweetFromText(t2OriginalText);
+            Tweet a = Tweet.fromText(t1OriginalText);
+            Tweet b = Tweet.fromText(t2OriginalText);
             AnagramMatch match = AnagramMatch.fromTweetPair(a, b);
 
             float totalLengthRatio = match.getTotalLengthToHighestLengthCapturedRatio();
@@ -84,8 +79,8 @@ public class OneOffMetricsUpdates {
             String t1OriginalText = (String)props.get("t1_originalText");
             String t2OriginalText = (String)props.get("t2_originalText");
 
-            Tweet a = tweetFromText(t1OriginalText);
-            Tweet b = tweetFromText(t2OriginalText);
+            Tweet a = Tweet.fromText(t1OriginalText);
+            Tweet b = Tweet.fromText(t2OriginalText);
             AnagramMatch match = AnagramMatch.fromTweetPair(a, b);
 
             float englishWordsToTotalWordCountRatio = match.getEnglishWordsToTotalWordCount();
@@ -131,8 +126,8 @@ public class OneOffMetricsUpdates {
             String t2OriginalText = (String)props.get("t2_originalText");
             float originalInterestingFactor = (float)props.get("interesting_factor");
 
-            Tweet a = tweetFromText(t1OriginalText);
-            Tweet b = tweetFromText(t2OriginalText);
+            Tweet a = Tweet.fromText(t1OriginalText);
+            Tweet b = Tweet.fromText(t2OriginalText);
             AnagramMatch match = AnagramMatch.fromTweetPair(a, b);
             float newInterestingFactor = match.getInterestingFactor();
 
@@ -147,15 +142,6 @@ public class OneOffMetricsUpdates {
         }
 
         h.close();
-    }
-
-    private static Tweet tweetFromText(String originalText) {
-        ProcessedTweetText processedTweetText = Tweet.processTweetText(originalText);
-
-        return new Tweet(null, 0, null,
-                originalText, processedTweetText.getStrippedText(),
-                processedTweetText.getSortedStrippedText(), 0L,
-                null, false);
     }
 
     private static DBI buildDbi() {

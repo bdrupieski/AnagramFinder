@@ -2,8 +2,8 @@ package anagramutils.persistence;
 
 import org.skife.jdbi.v2.StatementContext;
 import org.skife.jdbi.v2.tweak.ResultSetMapper;
-import anagramutils.AnagramMatch;
-import anagramutils.IsSameWhenRearrangedEnum;
+import anagramutils.models.AnagramMatch;
+import anagramutils.models.IsSameWhenRearrangedEnum;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

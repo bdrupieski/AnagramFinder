@@ -1,11 +1,13 @@
+package metricandprocessingtests;
+
 import org.junit.Assert;
 import org.junit.Test;
-import anagramutils.processing.MatchMetrics;
+import anagramutils.textprocessing.MatchScoringMetrics;
 
 public class DemerauLevenshteinDistanceTests {
 
     private static void dist(String a, String b, int distance) {
-        Assert.assertEquals(distance, MatchMetrics.demerauLevenshteinDistance(a, b));
+        Assert.assertEquals(distance, MatchScoringMetrics.demerauLevenshteinDistance(a, b));
     }
 
     @Test

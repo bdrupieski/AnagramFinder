@@ -3,7 +3,7 @@ package anagramutils.persistence;
 import org.skife.jdbi.v2.sqlobject.Binder;
 import org.skife.jdbi.v2.sqlobject.BinderFactory;
 import org.skife.jdbi.v2.sqlobject.BindingAnnotation;
-import anagramutils.AnagramMatch;
+import anagramutils.models.AnagramMatch;
 
 import java.lang.annotation.*;
 

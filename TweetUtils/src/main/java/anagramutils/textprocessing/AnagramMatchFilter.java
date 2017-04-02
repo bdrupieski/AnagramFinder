@@ -1,7 +1,7 @@
-package anagramutils.filters;
+package anagramutils.textprocessing;
 
-import anagramutils.AnagramMatch;
-import anagramutils.IsSameWhenRearrangedEnum;
+import anagramutils.models.AnagramMatch;
+import anagramutils.models.IsSameWhenRearrangedEnum;
 
 public class AnagramMatchFilter {
 

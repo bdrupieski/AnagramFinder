@@ -1,19 +1,18 @@
-package anagramutils.processing;
+package anagramutils.textprocessing;
 
-import anagramutils.IsSameWhenRearrangedEnum;
-import anagramutils.filters.TweetFilter;
+import anagramutils.models.IsSameWhenRearrangedEnum;
 
 import java.io.*;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class MatchMetrics {
+public class MatchScoringMetrics {
 
     private static HashSet<String> englishWords;
 
     static {
-        ClassLoader classLoader = MatchMetrics.class.getClassLoader();
+        ClassLoader classLoader = MatchScoringMetrics.class.getClassLoader();
 
         try {
             InputStream resourceAsStream = classLoader.getResourceAsStream("english_words.txt");
@@ -28,7 +27,7 @@ public class MatchMetrics {
         }
     }
 
-    private MatchMetrics() {
+    private MatchScoringMetrics() {
     }
 
     public static int demerauLevenshteinDistance(String a, String b) {

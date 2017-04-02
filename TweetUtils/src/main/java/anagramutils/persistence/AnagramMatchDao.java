@@ -2,7 +2,7 @@ package anagramutils.persistence;
 
 import org.skife.jdbi.v2.sqlobject.SqlBatch;
 import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
-import anagramutils.AnagramMatch;
+import anagramutils.models.AnagramMatch;
 
 @RegisterMapper(AnagramMatchMapper.class)
 public interface AnagramMatchDao {

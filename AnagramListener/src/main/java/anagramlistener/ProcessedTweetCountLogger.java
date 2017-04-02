@@ -1,7 +1,7 @@
 package anagramlistener;
 
 import anagramlistener.configuration.ApplicationConfiguration;
-import anagramutils.ProcessedCounts;
+import anagramutils.models.ProcessedCounts;
 import anagramutils.persistence.ProcessedCountsDao;
 import org.skife.jdbi.v2.DBI;
 import org.slf4j.Logger;

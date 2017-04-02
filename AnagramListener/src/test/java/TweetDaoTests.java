@@ -1,6 +1,6 @@
 import anagramlistener.configuration.ApplicationConfiguration;
 import anagramlistener.configuration.ConfigurationProvider;
-import anagramutils.Tweet;
+import anagramutils.models.Tweet;
 import anagramutils.persistence.TweetDao;
 import org.junit.Assert;
 import org.junit.Test;

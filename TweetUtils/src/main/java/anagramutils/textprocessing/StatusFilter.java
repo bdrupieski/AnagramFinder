@@ -1,4 +1,4 @@
-package anagramutils.filters;
+package anagramutils.textprocessing;
 
 import twitter4j.Status;
 

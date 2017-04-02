@@ -1,6 +1,6 @@
 import anagramlistener.configuration.ApplicationConfiguration;
 import anagramlistener.configuration.ConfigurationProvider;
-import anagramutils.ProcessedCounts;
+import anagramutils.models.ProcessedCounts;
 import anagramutils.persistence.ProcessedCountsDao;
 import org.junit.Ignore;
 import org.junit.Test;

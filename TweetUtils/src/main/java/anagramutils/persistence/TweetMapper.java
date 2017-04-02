@@ -2,7 +2,7 @@ package anagramutils.persistence;
 
 import org.skife.jdbi.v2.StatementContext;
 import org.skife.jdbi.v2.tweak.ResultSetMapper;
-import anagramutils.Tweet;
+import anagramutils.models.Tweet;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

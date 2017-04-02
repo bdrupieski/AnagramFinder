@@ -1,4 +1,4 @@
-package anagramutils;
+package anagramutils.models;
 
 import java.sql.Timestamp;
 import java.time.Instant;

@@ -1,11 +1,13 @@
-import anagramutils.processing.MatchMetrics;
+package metricandprocessingtests;
+
+import anagramutils.textprocessing.MatchScoringMetrics;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class EnglishWordsTests {
 
     private static int NumberOfEnglishWords(String sentence) {
-        return MatchMetrics.numberOfEnglishWords(MatchMetrics.tokenizeTweetText(sentence));
+        return MatchScoringMetrics.numberOfEnglishWords(MatchScoringMetrics.tokenizeTweetText(sentence));
     }
 
     @Test

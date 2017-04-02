@@ -1,11 +1,11 @@
-package anagramutils.processing;
+package anagramutils.models;
 
 public class ProcessedTweetText {
     private String originalText;
     private String strippedText;
     private String sortedStrippedText;
 
-    public ProcessedTweetText(String originalText, String strippedText, String sortedStrippedText) {
+    ProcessedTweetText(String originalText, String strippedText, String sortedStrippedText) {
         this.originalText = originalText;
         this.strippedText = strippedText;
         this.sortedStrippedText = sortedStrippedText;
