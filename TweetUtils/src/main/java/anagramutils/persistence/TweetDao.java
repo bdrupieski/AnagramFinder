@@ -44,6 +44,4 @@ public interface TweetDao {
             "FROM tweets " +
             "WHERE stripped_sorted_text = :tweetSortedStrippedText")
     List<Tweet> findCandidateMatches(@Bind("tweetSortedStrippedText") String tweetSortedStrippedText);
-
-    void close();
 }

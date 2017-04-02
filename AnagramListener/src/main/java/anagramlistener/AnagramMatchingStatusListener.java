@@ -10,10 +10,10 @@ import twitter4j.StatusListener;
 
 public class AnagramMatchingStatusListener implements StatusListener {
 
-    private static Logger logger = LoggerFactory.getLogger(AnagramMatchingStatusListener.class);
+    private final static Logger logger = LoggerFactory.getLogger(AnagramMatchingStatusListener.class);
 
-    private ProcessedTweetCountLogger processedTweetCountLogger;
-    private DBI dbi;
+    private final ProcessedTweetCountLogger processedTweetCountLogger;
+    private final DBI dbi;
 
     AnagramMatchingStatusListener(DBI dbi, ProcessedTweetCountLogger processedTweetCountLogger) {
         this.dbi = dbi;

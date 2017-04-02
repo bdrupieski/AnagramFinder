@@ -43,6 +43,4 @@ public interface AnagramMatchDao {
             ":interestingFactor " +
             ")")
     void insert(@BindAnagramMatch Iterable<AnagramMatch> anagramMatches);
-
-    void close();
 }

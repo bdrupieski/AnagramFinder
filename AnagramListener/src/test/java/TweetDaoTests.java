@@ -1,4 +1,5 @@
-import anagramlistener.ConfigurationProvider;
+import anagramlistener.configuration.ApplicationConfiguration;
+import anagramlistener.configuration.ConfigurationProvider;
 import anagramutils.Tweet;
 import anagramutils.persistence.TweetDao;
 import org.junit.Assert;
@@ -22,6 +23,6 @@ public class TweetDaoTests {
     }
 
     private DBI buildDbi() {
-        return ConfigurationProvider.configureDatabase(ConfigurationProvider.getApplicationConfig());
+        return ConfigurationProvider.configureDatabase(ApplicationConfiguration.FromFileOrResources());
     }
 }

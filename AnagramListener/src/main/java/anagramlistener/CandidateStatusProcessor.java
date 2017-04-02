@@ -17,11 +17,11 @@ import java.util.stream.Collectors;
 
 public class CandidateStatusProcessor implements Runnable {
 
-    private static Logger logger = LoggerFactory.getLogger(CandidateStatusProcessor.class);
+    private final static Logger logger = LoggerFactory.getLogger(CandidateStatusProcessor.class);
 
-    private Status status;
-    private DBI dbi;
-    private ProcessedTweetCountLogger countsLogger;
+    private final Status status;
+    private final DBI dbi;
+    private final ProcessedTweetCountLogger countsLogger;
 
     CandidateStatusProcessor(Status status, DBI dbi, ProcessedTweetCountLogger countsLogger) {
         this.status = status;

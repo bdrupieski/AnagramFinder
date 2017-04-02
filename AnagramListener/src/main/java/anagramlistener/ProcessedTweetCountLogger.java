@@ -1,5 +1,6 @@
 package anagramlistener;
 
+import anagramlistener.configuration.ApplicationConfiguration;
 import anagramutils.ProcessedCounts;
 import anagramutils.persistence.ProcessedCountsDao;
 import org.skife.jdbi.v2.DBI;
@@ -12,28 +13,28 @@ import java.util.concurrent.atomic.AtomicLong;
 
 class ProcessedTweetCountLogger {
 
-    private DBI dbi;
-    private long processedCountThreshold;
+    private final DBI dbi;
+    private final ApplicationConfiguration applicationConfiguration;
 
-    private Logger logger = LoggerFactory.getLogger(ProcessedTweetCountLogger.class);
+    private final Logger logger = LoggerFactory.getLogger(ProcessedTweetCountLogger.class);
 
-    final private AtomicLong receivedStatusCount = new AtomicLong();
-    final private AtomicLong statusMetFilterCount = new AtomicLong();
-    final private AtomicLong tweetMetFilterCount = new AtomicLong();
-    final private AtomicLong savedTweetCount = new AtomicLong();
-    final private AtomicLong savedAnagramCount = new AtomicLong();
+    private final AtomicLong receivedStatusCount = new AtomicLong();
+    private final AtomicLong statusMetFilterCount = new AtomicLong();
+    private final AtomicLong tweetMetFilterCount = new AtomicLong();
+    private final AtomicLong savedTweetCount = new AtomicLong();
+    private final AtomicLong savedAnagramCount = new AtomicLong();
 
-    final private AtomicLong receivedStatusCountSincePreviousReset = new AtomicLong();
-    final private AtomicLong statusMetFilterCountSincePreviousReset = new AtomicLong();
-    final private AtomicLong tweetMetFilterCountSincePreviousReset = new AtomicLong();
-    final private AtomicLong savedTweetCountSincePreviousReset = new AtomicLong();
-    final private AtomicLong savedAnagramCountSincePreviousReset = new AtomicLong();
+    private final AtomicLong receivedStatusCountSincePreviousReset = new AtomicLong();
+    private final AtomicLong statusMetFilterCountSincePreviousReset = new AtomicLong();
+    private final AtomicLong tweetMetFilterCountSincePreviousReset = new AtomicLong();
+    private final AtomicLong savedTweetCountSincePreviousReset = new AtomicLong();
+    private final AtomicLong savedAnagramCountSincePreviousReset = new AtomicLong();
 
     private Instant previousReset = Instant.now();
 
-    ProcessedTweetCountLogger(DBI dbi, long processedCountThreshold) {
+    ProcessedTweetCountLogger(DBI dbi, ApplicationConfiguration applicationConfiguration) {
         this.dbi = dbi;
-        this.processedCountThreshold = processedCountThreshold;
+        this.applicationConfiguration = applicationConfiguration;
     }
 
     void incrementReceivedStatusCount() {
@@ -64,7 +65,7 @@ class ProcessedTweetCountLogger {
     }
 
     private boolean isItTimeToAutomaticallyLogProgress(long tweetsMetFilterCount) {
-        return (tweetsMetFilterCount % processedCountThreshold) == 0;
+        return (tweetsMetFilterCount % applicationConfiguration.getProcessedCountThreshold()) == 0;
     }
 
     private void automaticallyLogProgress(long tweetsMetFilterCount) {

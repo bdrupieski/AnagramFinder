@@ -1,5 +1,7 @@
 package datamanipulation;
 
+import anagramlistener.configuration.ApplicationConfiguration;
+import anagramlistener.configuration.ConfigurationProvider;
 import anagramutils.AnagramMatch;
 import anagramutils.Tweet;
 import anagramutils.processing.ProcessedTweetText;
@@ -157,13 +159,6 @@ public class OneOffMetricsUpdates {
     }
 
     private static DBI buildDbi() {
-        Config appConfig = ConfigFactory.load();
-        HikariConfig hikariConfig = new HikariConfig();
-        hikariConfig.setJdbcUrl(appConfig.getString("database.url"));
-        hikariConfig.setUsername(appConfig.getString("database.user"));
-        hikariConfig.setPassword(appConfig.getString("database.password"));
-        HikariDataSource hikariDataSource = new HikariDataSource(hikariConfig);
-
-        return new DBI(hikariDataSource);
+        return ConfigurationProvider.configureDatabase(ApplicationConfiguration.FromFileOrResources());
     }
 }

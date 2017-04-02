@@ -1,47 +1,41 @@
 package anagramlistener;
 
-import com.typesafe.config.Config;
+import anagramlistener.configuration.ApplicationConfiguration;
+import anagramlistener.configuration.ConfigurationProvider;
+import anagramlistener.configuration.TwitterApiConfiguration;
 import org.skife.jdbi.v2.DBI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import twitter4j.TwitterStream;
-import twitter4j.TwitterStreamFactory;
-import twitter4j.conf.Configuration;
 
 public class AnagramListenerDriver {
 
-    private static Logger logger = LoggerFactory.getLogger(AnagramListenerDriver.class);
+    private final static Logger logger = LoggerFactory.getLogger(AnagramListenerDriver.class);
 
-    private TwitterStream twitterStream;
-    private DBI dbi;
-    private ProcessedTweetCountLogger processedTweetCountLogger;
+    private final TwitterStream twitterStream;
+    private final DBI dbi;
+    private final ProcessedTweetCountLogger processedTweetCountLogger;
 
-    private AnagramListenerDriver() {
-        Config applicationConfig = ConfigurationProvider.getApplicationConfig();
-        long processedCountThreshold = applicationConfig.getLong("processedCountThreshold");
-        int numberOfAsyncThreads = applicationConfig.getInt("numberOfAsyncThreads");
-
-        dbi = ConfigurationProvider.configureDatabase(applicationConfig);
-        Configuration twitterConfiguration = ConfigurationProvider.buildTwitterConfig(numberOfAsyncThreads);
-        twitterStream = new TwitterStreamFactory(twitterConfiguration).getInstance();
-
-        processedTweetCountLogger = new ProcessedTweetCountLogger(dbi, processedCountThreshold);
+    private AnagramListenerDriver(TwitterStream twitterStream, DBI dbi, ProcessedTweetCountLogger processedTweetCountLogger) {
+        this.twitterStream = twitterStream;
+        this.dbi = dbi;
+        this.processedTweetCountLogger = processedTweetCountLogger;
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            logger.info("interrupt received, shutting down producer...");
+            logger.info("Interrupt received, shutting down...");
             cleanUp();
         }));
     }
 
     private void cleanUp() {
-        logger.info("shutting down twitter stream.");
+        logger.info("Shutting down twitter stream...");
         twitterStream.cleanUp();
         twitterStream.shutdown();
-        logger.info("finished shutting down twitter stream.");
+        logger.info("Finished shutting down twitter stream.");
 
-        logger.info("logging processed counts.");
+        logger.info("Logging processed counts...");
         processedTweetCountLogger.logProcessedCounts();
-        logger.info("finished logging processed counts.");
+        logger.info("Finished logging processed counts.");
     }
 
     private void run() {
@@ -61,7 +55,14 @@ public class AnagramListenerDriver {
     }
 
     public static void main(String[] args) {
-        AnagramListenerDriver producer = new AnagramListenerDriver();
-        producer.run();
+        ApplicationConfiguration applicationConfiguration = ApplicationConfiguration.FromFileOrResources();
+        TwitterApiConfiguration twitterApiConfiguration = TwitterApiConfiguration.FromFileOrResources();
+
+        TwitterStream twitterStream = ConfigurationProvider.buildTwitterStream(twitterApiConfiguration, applicationConfiguration);
+        DBI dbi = ConfigurationProvider.configureDatabase(applicationConfiguration);
+        ProcessedTweetCountLogger processedTweetCountLogger = new ProcessedTweetCountLogger(dbi, applicationConfiguration);
+
+        AnagramListenerDriver anagramListenerDriver = new AnagramListenerDriver(twitterStream, dbi, processedTweetCountLogger);
+        anagramListenerDriver.run();
     }
 }

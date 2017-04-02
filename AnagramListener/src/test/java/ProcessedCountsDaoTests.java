@@ -1,4 +1,5 @@
-import anagramlistener.ConfigurationProvider;
+import anagramlistener.configuration.ApplicationConfiguration;
+import anagramlistener.configuration.ConfigurationProvider;
 import anagramutils.ProcessedCounts;
 import anagramutils.persistence.ProcessedCountsDao;
 import org.junit.Ignore;
@@ -33,6 +34,6 @@ public class ProcessedCountsDaoTests {
     }
 
     private DBI buildDbi() {
-        return ConfigurationProvider.configureDatabase(ConfigurationProvider.getApplicationConfig());
+        return ConfigurationProvider.configureDatabase(ApplicationConfiguration.FromFileOrResources());
     }
 }
