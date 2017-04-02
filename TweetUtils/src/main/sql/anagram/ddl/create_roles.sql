@@ -1,4 +1,4 @@
-CREATE ROLE anagrams_readwrite WITH LOGIN ENCRYPTED PASSWORD 'xxxxx';
+CREATE ROLE anagrams_readwrite WITH LOGIN ENCRYPTED PASSWORD 'therearesomeanagrams';
 
 GRANT
 INSERT

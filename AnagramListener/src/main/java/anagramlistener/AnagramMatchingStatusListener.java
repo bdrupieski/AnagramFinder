@@ -15,9 +15,9 @@ public class AnagramMatchingStatusListener implements StatusListener {
     private ProcessedTweetCountLogger processedTweetCountLogger;
     private DBI dbi;
 
-    AnagramMatchingStatusListener(DBI dbi, long processedCountThreshold) {
+    AnagramMatchingStatusListener(DBI dbi, ProcessedTweetCountLogger processedTweetCountLogger) {
         this.dbi = dbi;
-        this.processedTweetCountLogger = new ProcessedTweetCountLogger(processedCountThreshold);
+        this.processedTweetCountLogger = processedTweetCountLogger;
     }
 
     @Override

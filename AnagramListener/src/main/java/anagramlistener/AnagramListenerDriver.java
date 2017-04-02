@@ -39,7 +39,8 @@ public class AnagramListenerDriver {
     }
 
     private void run() {
-        AnagramMatchingStatusListener publishFilteredStatusListener = new AnagramMatchingStatusListener(dbi, processedCountThreshold);
+        ProcessedTweetCountLogger processedTweetCountLogger = new ProcessedTweetCountLogger(dbi, processedCountThreshold);
+        AnagramMatchingStatusListener publishFilteredStatusListener = new AnagramMatchingStatusListener(dbi, processedTweetCountLogger);
 
         twitterStream.addListener(publishFilteredStatusListener);
         twitterStream.sample("en");
