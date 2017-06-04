@@ -3,6 +3,7 @@ package anagramlistener;
 import org.skife.jdbi.v2.DBI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import textprocessing.AnagramMatchFilter;
 import twitter4j.StallWarning;
 import twitter4j.Status;
 import twitter4j.StatusDeletionNotice;
@@ -14,15 +15,17 @@ public class AnagramMatchingStatusListener implements StatusListener {
 
     private final ProcessedTweetCountLogger processedTweetCountLogger;
     private final DBI dbi;
+    private final AnagramMatchFilter anagramMatchFilter;
 
-    AnagramMatchingStatusListener(DBI dbi, ProcessedTweetCountLogger processedTweetCountLogger) {
+    AnagramMatchingStatusListener(DBI dbi, ProcessedTweetCountLogger processedTweetCountLogger, AnagramMatchFilter anagramMatchFilter) {
         this.dbi = dbi;
         this.processedTweetCountLogger = processedTweetCountLogger;
+        this.anagramMatchFilter = anagramMatchFilter;
     }
 
     @Override
     public void onStatus(Status status) {
-        CandidateStatusProcessor candidateTweetProcessor = new CandidateStatusProcessor(status, dbi, processedTweetCountLogger);
+        CandidateStatusProcessor candidateTweetProcessor = new CandidateStatusProcessor(status, dbi, processedTweetCountLogger, anagramMatchFilter);
         candidateTweetProcessor.run();
     }
 

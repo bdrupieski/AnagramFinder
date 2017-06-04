@@ -22,11 +22,13 @@ public class CandidateStatusProcessor implements Runnable {
     private final Status status;
     private final DBI dbi;
     private final ProcessedTweetCountLogger countsLogger;
+    private final AnagramMatchFilter anagramMatchFilter;
 
-    CandidateStatusProcessor(Status status, DBI dbi, ProcessedTweetCountLogger countsLogger) {
+    CandidateStatusProcessor(Status status, DBI dbi, ProcessedTweetCountLogger countsLogger, AnagramMatchFilter anagramMatchFilter) {
         this.status = status;
         this.dbi = dbi;
         this.countsLogger = countsLogger;
+        this.anagramMatchFilter = anagramMatchFilter;
     }
 
     @Override
@@ -91,7 +93,7 @@ public class CandidateStatusProcessor implements Runnable {
                 List<AnagramMatch> goodMatches = candidateMatches
                         .stream()
                         .map(x -> AnagramMatch.fromTweetPair(tweet, x))
-                        .filter(AnagramMatchFilter::isGoodMatch)
+                        .filter(anagramMatchFilter::isGoodMatch)
                         .collect(Collectors.toList());
 
                 if (goodMatches.size() > 0) {

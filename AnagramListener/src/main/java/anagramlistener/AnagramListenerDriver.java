@@ -1,11 +1,13 @@
 package anagramlistener;
 
+import configuration.AnagramMatchMetricsConfiguration;
 import configuration.ApplicationConfiguration;
 import configuration.ConfigurationProvider;
 import configuration.TwitterApiConfiguration;
 import org.skife.jdbi.v2.DBI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import textprocessing.AnagramMatchFilter;
 import twitter4j.TwitterStream;
 
 public class AnagramListenerDriver {
@@ -59,11 +61,13 @@ public class AnagramListenerDriver {
     public static void main(String[] args) {
         ApplicationConfiguration applicationConfiguration = ApplicationConfiguration.FromFileOrResources();
         TwitterApiConfiguration twitterApiConfiguration = TwitterApiConfiguration.FromFileOrResources();
+        AnagramMatchMetricsConfiguration anagramMatchMetricsConfiguration = AnagramMatchMetricsConfiguration.FromFileOrResources();
 
+        AnagramMatchFilter anagramMatchFilter = new AnagramMatchFilter(anagramMatchMetricsConfiguration);
         TwitterStream twitterStream = ConfigurationProvider.buildTwitterStream(twitterApiConfiguration, applicationConfiguration);
         DBI dbi = ConfigurationProvider.configureDatabase(applicationConfiguration);
         ProcessedTweetCountLogger processedTweetCountLogger = new ProcessedTweetCountLogger(dbi, applicationConfiguration);
-        AnagramMatchingStatusListener publishFilteredStatusListener = new AnagramMatchingStatusListener(dbi, processedTweetCountLogger);
+        AnagramMatchingStatusListener publishFilteredStatusListener = new AnagramMatchingStatusListener(dbi, processedTweetCountLogger, anagramMatchFilter);
 
         AnagramListenerDriver anagramListenerDriver = new AnagramListenerDriver(twitterStream, publishFilteredStatusListener, processedTweetCountLogger);
         anagramListenerDriver.run();

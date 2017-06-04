@@ -1,19 +1,23 @@
 package textprocessing;
 
+import configuration.AnagramMatchMetricsConfiguration;
 import models.AnagramMatch;
 import models.IsSameWhenRearrangedEnum;
 
 public class AnagramMatchFilter {
 
-    private AnagramMatchFilter() {
+    private AnagramMatchMetricsConfiguration anagramMatchMetricsConfiguration;
+
+    public AnagramMatchFilter(AnagramMatchMetricsConfiguration anagramMatchMetricsConfiguration) {
+        this.anagramMatchMetricsConfiguration = anagramMatchMetricsConfiguration;
     }
 
-    public static boolean isGoodMatch(AnagramMatch anagramMatch) {
-        return anagramMatch.getEditDistanceToLengthRatio() > 0.3 &&
-                anagramMatch.getLcsLengthToTotalLengthRatio() > 0.3 &&
-                anagramMatch.getDifferentWordCountToTotalWordCount() > 0.3 &&
-                anagramMatch.getEnglishWordsToTotalWordCount() > 0.3 &&
-                anagramMatch.getInterestingFactor() > 0.5 &&
+    public boolean isGoodMatch(AnagramMatch anagramMatch) {
+        return anagramMatch.getEditDistanceToLengthRatio() > anagramMatchMetricsConfiguration.getEditDistanceRatioMinimumThreshold() &&
+                anagramMatch.getLcsLengthToTotalLengthRatio() > anagramMatchMetricsConfiguration.getLongestCommonSubstringRatioMinimumThreshold() &&
+                anagramMatch.getDifferentWordCountToTotalWordCount() > anagramMatchMetricsConfiguration.getDifferentWordCountRatioMinimumThreshold() &&
+                anagramMatch.getEnglishWordsToTotalWordCount() > anagramMatchMetricsConfiguration.getEnglishWordsToTotalWordCountRatioMinimumThreshold() &&
+                anagramMatch.getInterestingFactor() > anagramMatchMetricsConfiguration.getInterestingFactorMinimumThreshold() &&
                 anagramMatch.getIsSameRearranged() != IsSameWhenRearrangedEnum.TRUE;
     }
 }
