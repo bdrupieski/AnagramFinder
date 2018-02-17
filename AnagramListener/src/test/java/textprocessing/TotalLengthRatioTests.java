@@ -8,7 +8,7 @@ public class TotalLengthRatioTests {
     private final float floatComparisonDelta = 0.0001f;
 
     @Test
-    public void ZeroMin() {
+    public void zeroMin() {
         int minLength = 0;
         int maxLength = 10;
 
@@ -18,7 +18,7 @@ public class TotalLengthRatioTests {
     }
 
     @Test
-    public void NonzeroMin() {
+    public void nonzeroMin() {
         int minLength = 8;
         int maxLength = 18;
 

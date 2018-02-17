@@ -30,11 +30,11 @@ public class AnagramMatchMetricsConfiguration {
         return interestingFactorMinimumThreshold;
     }
 
-    public static AnagramMatchMetricsConfiguration FromFileOrResources() {
-        return FromFileOrResources("application.conf");
+    public static AnagramMatchMetricsConfiguration fromFileOrResources() {
+        return fromFileOrResources("application.conf");
     }
 
-    private static AnagramMatchMetricsConfiguration FromFileOrResources(String filename) {
+    private static AnagramMatchMetricsConfiguration fromFileOrResources(String filename) {
         Config config = ConfigurationProvider.loadConfigFromFileIfExistsOtherwiseResources(filename);
 
         AnagramMatchMetricsConfiguration anagramMatchMetricsConfiguration = new AnagramMatchMetricsConfiguration();

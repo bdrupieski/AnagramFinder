@@ -60,8 +60,8 @@ public class AnagramListenerDriver {
 
     public static void main(String[] args) {
         ApplicationConfiguration applicationConfiguration = ApplicationConfiguration.FromFileOrResources();
-        TwitterApiConfiguration twitterApiConfiguration = TwitterApiConfiguration.FromFileOrResources();
-        AnagramMatchMetricsConfiguration anagramMatchMetricsConfiguration = AnagramMatchMetricsConfiguration.FromFileOrResources();
+        TwitterApiConfiguration twitterApiConfiguration = TwitterApiConfiguration.fromFileOrResources();
+        AnagramMatchMetricsConfiguration anagramMatchMetricsConfiguration = AnagramMatchMetricsConfiguration.fromFileOrResources();
 
         AnagramMatchFilter anagramMatchFilter = new AnagramMatchFilter(anagramMatchMetricsConfiguration);
         TwitterStream twitterStream = ConfigurationProvider.buildTwitterStream(twitterApiConfiguration, applicationConfiguration);

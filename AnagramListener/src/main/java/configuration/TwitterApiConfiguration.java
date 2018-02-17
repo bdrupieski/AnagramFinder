@@ -27,11 +27,11 @@ public class TwitterApiConfiguration {
         return accessTokenSecret;
     }
 
-    public static TwitterApiConfiguration FromFileOrResources() {
-        return FromFileOrResources("twitterapi.conf");
+    public static TwitterApiConfiguration fromFileOrResources() {
+        return fromFileOrResources("twitterapi.conf");
     }
 
-    public static TwitterApiConfiguration FromFileOrResources(String filename) {
+    private static TwitterApiConfiguration fromFileOrResources(String filename) {
         Config config = ConfigurationProvider.loadConfigFromFileIfExistsOtherwiseResources(filename);
 
         TwitterApiConfiguration twitterApiConfiguration = new TwitterApiConfiguration();

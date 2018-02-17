@@ -6,7 +6,7 @@ import org.junit.Test;
 public class TweetTests {
 
     @Test
-    public void BasicTweet() {
+    public void basicTweet() {
         Tweet tweet = Tweet.fromText("What are you even doing?");
         Assert.assertEquals("What are you even doing?", tweet.getTweetOriginalText());
         Assert.assertEquals("whatareyouevendoing", tweet.getTweetStrippedText());
