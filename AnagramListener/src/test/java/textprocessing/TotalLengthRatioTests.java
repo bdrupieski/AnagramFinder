@@ -8,7 +8,7 @@ public class TotalLengthRatioTests {
     private final float floatComparisonDelta = 0.0001f;
 
     @Test
-    public void zeroMin() {
+    public void when_zeroMinimumLengthTweet_then_totalLengthRatioCalculatesNormalizedRatiosFromZeroToWhatever() {
         int minLength = 0;
         int maxLength = 10;
 
@@ -18,7 +18,7 @@ public class TotalLengthRatioTests {
     }
 
     @Test
-    public void nonzeroMin() {
+    public void when_nonzeroMinimumLengthTweet_then_totalLengthRatioCalculatesNormalizedRatiosBetweenGivenMinAndMax() {
         int minLength = 8;
         int maxLength = 18;
 

@@ -10,7 +10,7 @@ public class DemerauLevenshteinDistanceTests {
     }
 
     @Test
-    public void sameStringHasADistanceOfZero() {
+    public void when_sameString_then_distanceIsZero() {
         dist("", "", 0);
         dist("b", "b", 0);
         dist("brian", "brian", 0);
@@ -18,21 +18,21 @@ public class DemerauLevenshteinDistanceTests {
     }
 
     @Test
-    public void caseDoesntMatter() {
+    public void when_differentCase_then_caseIsIgnored() {
         dist("ABC", "abc", 0);
         dist("abc", "ACB", 1);
         dist("ACB", "abc", 1);
     }
 
     @Test
-    public void singleTranspositionHasADistanceOfOne() {
+    public void when_singleLetterTransposition_then_distanceIsOne() {
         dist("ABC", "ACB", 1);
         dist("brian", "brina", 1);
         dist("brian", "rbian", 1);
     }
 
     @Test
-    public void singleInsertionsAndDeletionsHaveADistanceOfOne() {
+    public void when_singleInsertionOrDeletion_then_distanceIsOne() {
         dist("ABC", "ABCD", 1);
         dist("ABCD", "ABC", 1);
 
@@ -48,7 +48,7 @@ public class DemerauLevenshteinDistanceTests {
     }
 
     @Test
-    public void multipleInsertionsDeletionsTranspositions() {
+    public void when_multipleInsertionsDeletionsTranspositions_then_scoreIsCorrectForAllOfThem() {
         dist("this just in", "thisjustin", 2);
         dist("thisjustin", "this just in", 2);
         dist("this just in", "XXthisjustinXX", 6);
@@ -65,7 +65,7 @@ public class DemerauLevenshteinDistanceTests {
     }
 
     @Test
-    public void veryDifferent() {
+    public void when_stringsCompletelyDifferent_then_scoreIsStringLength() {
         dist("whoa", "HEYO", 4);
         dist("ABCDEFGHI", "123456789", 9);
         dist("", "123456789", 9);

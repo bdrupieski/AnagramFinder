@@ -12,11 +12,12 @@ import java.util.List;
 public class TweetDaoTests {
 
     @Test
-    public void sameStringHasADistanceOfZero() {
+    public void when_queryingCandidateTweetsForCommonTweet_then_someInMatchesAndSomeNot() {
         DBI dbi = buildDbi();
         TweetDao tweetDao = dbi.onDemand(TweetDao.class);
 
-        List<Tweet> matchingTweets = tweetDao.findCandidateMatches("aaaaaaceeeggiikmmnrrt");
+        // "well that was a letdown"
+        List<Tweet> matchingTweets = tweetDao.findCandidateMatches("aaadeehlllnostttwww");
 
         Assert.assertTrue(matchingTweets.size() > 0);
         Assert.assertTrue(matchingTweets.stream().filter(x -> x.getIsInRetweetedMatch()).count() > 0);

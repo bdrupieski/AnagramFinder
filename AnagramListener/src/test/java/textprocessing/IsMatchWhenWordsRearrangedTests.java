@@ -6,14 +6,8 @@ import org.junit.Test;
 
 public class IsMatchWhenWordsRearrangedTests {
 
-    private static void isMatch(String a, String b, IsSameWhenRearrangedEnum isSame) {
-        String[] aWords = MatchScoringMetrics.tokenizeTweetText(a);
-        String[] bWords = MatchScoringMetrics.tokenizeTweetText(b);
-        Assert.assertEquals(isSame, MatchScoringMetrics.isSameWhenWordsRearranged(aWords, bWords));
-    }
-
     @Test
-    public void simpleMatching() {
+    public void when_textPairsAreRearrangedWordsWithVaryingSpaces_then_calculatedAsRearranged() {
         isMatch("this is a test", "thisis a test", IsSameWhenRearrangedEnum.TRUE);
         isMatch("this is a test", "thisisatest", IsSameWhenRearrangedEnum.TRUE);
         isMatch("this is a test", "a test this is", IsSameWhenRearrangedEnum.TRUE);
@@ -24,7 +18,7 @@ public class IsMatchWhenWordsRearrangedTests {
     }
 
     @Test
-    public void realTweets() {
+    public void when_textPairsAreRearrangedWords_then_calculatedAsRearranged() {
         isMatch("heartbroken", "broken heart", IsSameWhenRearrangedEnum.TRUE);
         isMatch("Heartbroken \uD83D\uDE1E\uD83D\uDC94", "broken heart", IsSameWhenRearrangedEnum.TRUE);
         isMatch("Me is happy", "Happyisme", IsSameWhenRearrangedEnum.TRUE);
@@ -32,7 +26,7 @@ public class IsMatchWhenWordsRearrangedTests {
     }
 
     @Test
-    public void notAMatch() {
+    public void when_textPairsCompletelyDifferent_then_calculatedAsNotRearranged() {
         isMatch("twd is on yes", "ITS SO WENDY", IsSameWhenRearrangedEnum.FALSE);
         isMatch("Weather is so cute ❤️⛄️", "<Eraticus> oh sweet", IsSameWhenRearrangedEnum.FALSE);
         isMatch("Hungriest.", "Sure thing \uD83D\uDE0F", IsSameWhenRearrangedEnum.FALSE);
@@ -41,12 +35,18 @@ public class IsMatchWhenWordsRearrangedTests {
     }
 
     @Test
-    public void cantHandleIfAllOneWord() {
+    public void when_textPairsAreRearrangedButHaveNoSpaces_then_cannotActuallyDetectItsRearranged() {
         isMatch("yougonnaridethewave", "gonnaridethewaveyou", IsSameWhenRearrangedEnum.FALSE);
     }
 
     @Test
-    public void dontCalculatePermutationsForLongStrings() {
+    public void when_textPairsAreVeryLong_then_dontEvenTryToCalculateIfWordsAreRearranged() {
         isMatch("yes this is a very long string", "yes this is a very long string", IsSameWhenRearrangedEnum.TOO_LONG_TO_COMPUTE);
+    }
+
+    private static void isMatch(String a, String b, IsSameWhenRearrangedEnum isSame) {
+        String[] aWords = MatchScoringMetrics.tokenizeTweetText(a);
+        String[] bWords = MatchScoringMetrics.tokenizeTweetText(b);
+        Assert.assertEquals(isSame, MatchScoringMetrics.isSameWhenWordsRearranged(aWords, bWords));
     }
 }

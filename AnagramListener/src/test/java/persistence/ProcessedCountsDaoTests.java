@@ -11,9 +11,10 @@ import java.time.Instant;
 
 public class ProcessedCountsDaoTests {
 
+    // Ad-hoc integration test. Unignore to run this, then delete the row it creates.
     @Ignore
     @Test
-    public void insertProcessedCounts() {
+    public void canSuccessfullyInsertProcessedCounts() {
 
         DBI dbi = buildDbi();
         ProcessedCountsDao processedCountsDao = dbi.onDemand(ProcessedCountsDao.class);

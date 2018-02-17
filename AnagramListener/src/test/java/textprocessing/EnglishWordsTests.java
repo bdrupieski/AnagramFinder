@@ -18,8 +18,7 @@ public class EnglishWordsTests {
     }
 
     @Test
-    public void contractions() {
-
+    public void when_validContraction_then_singleEnglishWord() {
         Assert.assertEquals(1, numberOfEnglishWords("I'm"));
         Assert.assertEquals(1, numberOfEnglishWords("I'll"));
         Assert.assertEquals(1, numberOfEnglishWords("I'd"));
@@ -82,5 +81,10 @@ public class EnglishWordsTests {
         Assert.assertEquals(1, numberOfEnglishWords("how's"));
         Assert.assertEquals(1, numberOfEnglishWords("how'll"));
         Assert.assertEquals(1, numberOfEnglishWords("how'd"));
+    }
+
+    @Test
+    public void when_invalidContraction_then_ZeroEnglishWords() {
+        Assert.assertEquals(0, numberOfEnglishWords("it've"));
     }
 }

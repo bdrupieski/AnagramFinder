@@ -6,7 +6,7 @@ import org.junit.Test;
 public class TweetTests {
 
     @Test
-    public void basicTweet() {
+    public void when_basicTweetText_then_stripsOutWhitespaceAndSortsCharacters() {
         Tweet tweet = Tweet.fromText("What are you even doing?");
         Assert.assertEquals("What are you even doing?", tweet.getTweetOriginalText());
         Assert.assertEquals("whatareyouevendoing", tweet.getTweetStrippedText());
@@ -14,23 +14,23 @@ public class TweetTests {
     }
 
     @Test
-    public void normalizeNonAsciiCharacters() {
-        AssertTextNormalizedAndStripped("aaaaaaaaaaaaaaaaaaaaaa", "ÀÁÂÃĀĂȦÄẢÅǍȀȂĄẠḀẦẤàáâä");
-        AssertTextNormalizedAndStripped("eeeeeeeeeeeeeeeee", "ÉÊẼĒĔËȆȄȨĖèéêẽēȅë");
-        AssertTextNormalizedAndStripped("iiiioooooouunnccss", "ÌÍÏïØøÒÖÔöÜüŇñÇçß");
+    public void when_nonAsciiCharacters_then_normalizedToAsciiCharacters() {
+        assertTextNormalizedAndStripped("aaaaaaaaaaaaaaaaaaaaaa", "ÀÁÂÃĀĂȦÄẢÅǍȀȂĄẠḀẦẤàáâä");
+        assertTextNormalizedAndStripped("eeeeeeeeeeeeeeeee", "ÉÊẼĒĔËȆȄȨĖèéêẽēȅë");
+        assertTextNormalizedAndStripped("iiiioooooouunnccss", "ÌÍÏïØøÒÖÔöÜüŇñÇçß");
     }
 
     @Test
-    public void lowercase() {
-        AssertTextNormalizedAndStripped("abcdabcd", "ABCDabcd");
+    public void when_tweetContainsMixedCase_then_normalizesToLowercase() {
+        assertTextNormalizedAndStripped("abcdabcd", "ABCDabcd");
     }
 
     @Test
-    public void spaces() {
-        AssertTextNormalizedAndStripped("thisisatest", "This is a test!");
+    public void when_tweetContainsWhitespace_then_normalizesToNoWhitespace() {
+        assertTextNormalizedAndStripped("thisisatest", "This is a test!");
     }
 
-    private static void AssertTextNormalizedAndStripped(String expected, String actual) {
+    private static void assertTextNormalizedAndStripped(String expected, String actual) {
         Assert.assertEquals(Tweet.fromText(actual).getTweetStrippedText(), expected);
     }
 }
